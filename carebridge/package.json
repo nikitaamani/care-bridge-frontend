@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+
     
     "leaflet": "^1.9.4",
     "framer-motion": "^12.4.5",
 
+    "@hookform/resolvers": "^4.1.0",
+    "framer-motion": "^12.4.5",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
