@@ -5,6 +5,7 @@ import HowItWorks from './components/Howitworks'
 import DisasterRecovery from './components/Disaster'
 import DonationPrompt from './components/DonationPrompt'
 import PopularContributions from './components/Popular'
+import ImageSlider from './components/Slider'
 const Home = () => {
   return (
     <div>
@@ -13,6 +14,7 @@ const Home = () => {
       <HowItWorks />
       <DisasterRecovery />
       <PopularContributions />
+      <ImageSlider />
       <DonationPrompt />
 
 
