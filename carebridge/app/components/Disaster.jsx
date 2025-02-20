@@ -1,9 +1,25 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
+import L from 'leaflet';
 import Image from 'next/image';
 import Link from 'next/link';
+import 'leaflet/dist/leaflet.css';
+
+// Dynamically import react-leaflet components to avoid SSR issues
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+
+// Fix Leaflet missing icons issue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+  iconUrl: '/leaflet/marker-icon.png',
+  shadowUrl: '/leaflet/marker-shadow.png',
+});
 
 // Disaster locations
 const disasterLocations = [
@@ -85,7 +101,14 @@ export default function DisasterRecovery() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {disasterImages.map((img, index) => (
           <div key={index} className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
-            <Image src={img.src} alt={img.alt} width={300} height={200} className="object-cover w-full h-44" />
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={300}
+              height={200}
+              className="object-cover w-full h-44"
+              priority={index === 0} // Prioritize the first image for faster loading
+            />
             <div className="p-4 bg-white">
               <p className="text-sm text-gray-700">{img.story}</p>
               <Link href={`/stories/${img.slug}`} className="text-blue-600 font-semibold mt-2 block hover:underline">
