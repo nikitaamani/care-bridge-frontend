@@ -39,7 +39,7 @@ export default function LoginForm() {
           </div>
           <button 
             type="submit" 
-            className="w-full bg-[#202952] text-white py-2 rounded transition-colors duration-300 hover:bg-[#F55920]"
+            className="w-full bg-blue-500 text-white py-2 rounded transition-colors duration-300 hover:bg-blue-800"
           >
             Login
           </button>
@@ -47,7 +47,7 @@ export default function LoginForm() {
         
         <p className="mt-4 text-center text-black">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-[#2f449e] hover:text-[#F55920]">
+          <Link href="/signup" className="text-blue-500 hover:text-blue-800">
             Create an account
           </Link>
         </p>
