@@ -6,8 +6,8 @@ const HowItWorks = () => {
     return (
         <section className="py-16 bg-gray-100">
             <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4">How It Works</h2>
-                <p className="text-lg text-gray-700">Making a donation is easy. Just follow these steps:</p>
+                <h2 className="text-3xl font-bold mb-4 text-black">How It Works</h2>
+                <p className="text-lg text-black">Making a donation is easy. Just follow these steps:</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                 {/* Step 1: Choose a Charity */}
