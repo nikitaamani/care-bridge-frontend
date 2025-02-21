@@ -24,15 +24,16 @@ export default function Team() {
         name: "Shadrack Kipkemei",
         role: "Volunteer Coordinator",
         description: "Coordinates volunteers and training programs.",
-        image: "/shadrack.jpg",
+        image: "/Shadrack.jpg",
       },
     ];
   
     return (
-        <div className="min-h-screen p-6 bg-gray-100">
+        <div className="min-h-screen flex flex-col justify-center p-6 bg-gray-100">
           <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6">
+          <h1 className="text-4xl font-bold text-center text-black mb-8">About Us</h1>
             
-            {/* Salvus Mission Section */}
+            {/* CareBridge Mission Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-12">
               <div className="relative w-full h-[500px]">
                 <img
@@ -60,7 +61,7 @@ export default function Team() {
                   We envision a world where every child has equal opportunities for growth, development, and success, regardless of their circumstances. By empowering vulnerable children through education, healthcare, clean water, and advocacy, we aim to create lasting change globally.
                 </p>
     
-                <button className="bg-[#003366] text-white px-6 py-2 rounded-md shadow-md hover:bg-[#001f4d]">
+                <button className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-800">
                   Support Our Vision
                 </button>
               </div>
