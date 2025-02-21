@@ -33,12 +33,12 @@
     transition: transform 0.3s ease-in-out;
 }
 
-/* Fixed missing closing bracket */
 .left .navigation {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
 }
+
 .left .navigation a {
     display: flex;
     align-items: center;
