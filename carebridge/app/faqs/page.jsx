@@ -97,7 +97,7 @@ export default function FAQPage() {
 
                 {/* Footer */}
                 <div className="py-4">
-                    <p className="text-sm opacity-75">© 2025 CareBridgeOrganisation</p>
+                    <p className="text-sm opacity-75">© 2025 CareBridge</p>
                 </div>
 
             </div>
