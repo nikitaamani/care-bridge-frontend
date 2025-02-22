@@ -1,5 +1,4 @@
 'use client';
-
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import L from 'leaflet';
@@ -20,6 +19,9 @@ L.Icon.Default.mergeOptions({
   iconUrl: '/leaflet/marker-icon.png',
   shadowUrl: '/leaflet/marker-shadow.png',
 });
+=======
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Image from 'next/image';
 
 // Disaster locations
 const disasterLocations = [
@@ -101,14 +103,7 @@ export default function DisasterRecovery() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {disasterImages.map((img, index) => (
           <div key={index} className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
-            <Image
-              src={img.src}
-              alt={img.alt}
-              width={300}
-              height={200}
-              className="object-cover w-full h-44"
-              priority={index === 0} // Prioritize the first image for faster loading
-            />
+            <Image src={img.src} alt={img.alt} width={300} height={200} className="object-cover w-full h-44" />
             <div className="p-4 bg-white">
               <p className="text-sm text-gray-700">{img.story}</p>
               <Link href={`/stories/${img.slug}`} className="text-blue-600 font-semibold mt-2 block hover:underline">
