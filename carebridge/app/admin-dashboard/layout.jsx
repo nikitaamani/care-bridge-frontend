@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import admin from "./admin.module.css";
@@ -8,15 +8,23 @@ import 'remixicon/fonts/remixicon.css';
 
 export default function Layout({ children }) {
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <div className={admin.main}>
-      <div className={admin.left}>
-        <div className={admin.holder}>
-          
-        </div>
+      {/* Menu Button for Mobile */}
+      <button className={admin.menuButton} onClick={toggleSidebar}>
+        <i className="ri-menu-line"></i>
+      </button>
+
+      {/* Sidebar */}
+      <div className={`${admin.left} ${isSidebarOpen ? admin.active : ""}`}>
+        <div className={admin.holder}></div>
         <h1>Kenyan</h1>
-        <p>Sign Out</p>
         <nav className={admin.navigation}>
           <Link href="/admin-dashboard" className={pathname === "/admin" ? admin.active : ""}>
             <i className="ri-home-3-line"></i>
@@ -45,8 +53,9 @@ export default function Layout({ children }) {
         </nav>
       </div>
 
+      {/* Main Content */}
       <div className={admin.right}>
-        {children} 
+        {children}
       </div>
     </div>
   );
