@@ -1,4 +1,5 @@
 "use client";
+import Footer from '../components/Footer';
 
 export default function Team() {
     const teamMembers = [
@@ -31,7 +32,18 @@ export default function Team() {
     return (
         <div className="min-h-screen flex flex-col justify-center p-6 bg-gray-100">
           <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6">
-          <h1 className="text-4xl font-bold text-center text-black mb-8">About Us</h1>
+
+
+            {/* Navbar */}
+          <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-800">Carebridge</h1>
+            <ul className="flex space-x-6">
+              <li><a href="/" className="text-gray-700 hover:text-blue-500">Home</a></li>
+              <li><a href="/about" className="text-gray-700 hover:text-blue-500">About</a></li>
+              <li><a href="/gallery" className="text-gray-700 hover:text-blue-500">Gallery</a></li>
+              <li><a href="/contact" className="text-gray-700 hover:text-blue-500">Contact</a></li>
+            </ul>
+          </nav>
             
             {/* CareBridge Mission Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-12">
@@ -86,6 +98,8 @@ export default function Team() {
             </div>
             
           </div>
+          {/* Footer */}
+        <Footer />
         </div>
       );
     }
