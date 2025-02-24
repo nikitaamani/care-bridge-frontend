@@ -16,6 +16,7 @@ export default function FAQPage() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+
     const faqs = {
         General: [
             { question: "How does child sponsorship work?", answer: "Sponsorship provides children with essential resources like education, healthcare, and food." },
@@ -59,6 +60,7 @@ export default function FAQPage() {
         <div className="relative h-screen bg-cover bg-center" 
             style={{ backgroundImage: 'url(https://salvusmission.org/wp-content/uploads/2024/02/Untitled-design-45.png)' }}>
 
+
             {/* Navbar */}
         <nav className={`bg-white fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
             <div className="py-4 px-6 flex justify-between items-center">
@@ -71,6 +73,7 @@ export default function FAQPage() {
               </ul>
             </div>
           </nav>
+
             
 
             {/* Main Content */}
@@ -119,8 +122,7 @@ export default function FAQPage() {
 
                 </div>
 
-                
-                
+        
             </div>
             <Footer />
         </div>
