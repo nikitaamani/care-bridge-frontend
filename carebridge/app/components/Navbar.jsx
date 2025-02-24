@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronDown, Home, Info, Image, Briefcase, HelpCircle, LayoutDashboard, LogIn, Search } from "lucide-react";
 
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -64,7 +65,7 @@ const Navbar = () => {
                 <div className="absolute top-full mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden">
                   <Link href="/donor-dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Donor Dashboard</Link>
                   <Link href="/charity-dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Charity Dashboard</Link>
-                  <Link href="/admin-panel" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Panel</Link>
+                  <Link href="/admin-dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Panel</Link>
                 </div>
               )}
             </div>
