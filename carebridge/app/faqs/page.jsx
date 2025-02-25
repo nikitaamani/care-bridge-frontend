@@ -1,9 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Footer from "../components/Footer";
 
 export default function FAQPage() {
     const [activeCategory, setActiveCategory] = useState("General");
+    const [scrolling, setScrolling] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolling(window.scrollY > 50);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
 
     const faqs = {
         General: [
@@ -47,19 +59,34 @@ export default function FAQPage() {
     return (
         <div className="relative h-screen bg-cover bg-center" 
             style={{ backgroundImage: 'url(https://salvusmission.org/wp-content/uploads/2024/02/Untitled-design-45.png)' }}>
+
+
+            {/* Navbar */}
+        <nav className={`bg-white fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
+            <div className="py-4 px-6 flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-black">Carebridge</h1>
+              <ul className="flex space-x-6">
+                <li><a href="/" className="text-black hover:text-blue-500">Home</a></li>
+                <li><a href="/about" className="text-black hover:text-blue-500">About</a></li>
+                <li><a href="/gallery" className="text-black hover:text-blue-500">Gallery</a></li>
+                <li><a href="/contact" className="text-black hover:text-blue-500">Contact</a></li>
+              </ul>
+            </div>
+          </nav>
+
             
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col justify-between h-full text-white text-center">
                 
                 {/* Header */}
-                <div className="py-10">
+                <div className="text-center pt-36">
                     <h1 className="text-5xl font-bold">Frequently Asked Questions</h1>
                     <h2 className="text-3xl mt-2">[FAQ's]</h2>
                 </div>
 
                 {/* FAQ Section (Scrollable to fit one page) */}
-                <div className="bg-white text-black w-full max-w-4xl mx-auto rounded-lg shadow-md p-6 overflow-auto h-3/5">
+                <div className="bg-white text-black w-full max-w-4xl mx-auto rounded-lg shadow-md p-6 overflow-auto h-3/5 mt-6 mb-10">
                     
                     {/* Tabs */}
                     <div className="flex justify-center space-x-4 mb-4">
@@ -95,12 +122,9 @@ export default function FAQPage() {
 
                 </div>
 
-                {/* Footer */}
-                <div className="py-4">
-                    <p className="text-sm opacity-75">© 2025 CareBridge</p>
-                </div>
-
+        
             </div>
+            <Footer />
         </div>
     );
 }

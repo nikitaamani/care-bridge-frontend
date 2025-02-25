@@ -1,22 +1,46 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import admin from "./admin.module.css";
 import 'remixicon/fonts/remixicon.css';
 
 export default function Layout({ children }) {
+
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+  const handleLogout = () => {
+    fetch("/api/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(() => {
+        sessionStorage.removeItem("adminToken");
+        router.push("/login");
+      })
+      .catch((err) => console.error("Logout failed:", err));
+  };
+  useEffect(() => {
+    fetch("https://my-json-server.typicode.com/typicode/demo/profile")
+      .then((res) => res.json())
+      .then((data) => setUser(data.name || "Kenyan"));
+  }, []);
 
   return (
     <div className={admin.main}>
-      <div className={admin.left}>
-        <div className={admin.holder}>
-          
-        </div>
-        <h1>Kenyan</h1>
-        <p>Sign Out</p>
+      {/* Menu Button for Mobile */}
+      <button className={admin.menuButton} onClick={toggleSidebar}>
+        <i className="ri-menu-line"></i>
+      </button>
+
+      {/* Sidebar */}
+      <div className={`${admin.left} ${isSidebarOpen ? admin.active : ""}`}>
+
         <nav className={admin.navigation}>
           <Link href="/admin-dashboard" className={pathname === "/admin" ? admin.active : ""}>
             <i className="ri-home-3-line"></i>
@@ -43,10 +67,19 @@ export default function Layout({ children }) {
             <span>Settings</span>
           </Link>
         </nav>
+        <div className={admin.bottom}>
+        <div className={admin.holder}></div>
+        <h1>{user}</h1>
+        </div>
+        <button className="{admin.checker} bg-red-600 text-white px-5 py-2 rounded hover:bg-red-800" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
 
+      {/* Main Content */}
       <div className={admin.right}>
-        {children} 
+        
+        {children}
       </div>
     </div>
   );
