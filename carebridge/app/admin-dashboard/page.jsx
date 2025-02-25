@@ -39,7 +39,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 w-full">
       {/* Hero Section */}
       <Card className="shadow-lg bg-gradient-to-r from-[#323A5E] to-[#202952] text-white">
         <CardHeader>
