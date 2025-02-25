@@ -43,7 +43,7 @@ const CharityApplications = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
+    <div className="p-6 bg-white shadow-lg rounded-lg w-full">
       <Card className="mb-6 shadow">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Charity Applications</CardTitle>
