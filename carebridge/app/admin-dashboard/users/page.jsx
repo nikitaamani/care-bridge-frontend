@@ -25,7 +25,7 @@ const Users = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-white shadow rounded-lg">
+    <div className="p-6 bg-white shadow rounded-lg w-full">
       <h2 className="text-xl font-bold mb-4 text-black">User Management</h2>
 
       {loading && <p className="text-gray-500">Loading users...</p>}
