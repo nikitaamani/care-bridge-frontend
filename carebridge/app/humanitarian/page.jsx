@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./medical.module.css";
+import Link from 'next/link';
 const HealthMedical = () => {
   return (
     <div>
@@ -28,7 +29,7 @@ const HealthMedical = () => {
           </div>
           <div className={styles.description}>
             <button className={styles.button}>Donate now</button>
-            <button className={styles.button}>See past relief efforts.</button>
+            <button className={styles.button}><Link href="/health">See past relief efforts.</Link></button>
           </div>
         </div>
       </div>
