@@ -1,9 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 const ImpactStories = () => {
@@ -16,7 +13,8 @@ const ImpactStories = () => {
     <div className="p-6 min-h-screen bg-gray-100 w-full">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Impact Stories</h1>
       
-      <Card className="p-4 shadow-lg bg-white w-full mb-6">
+      {/* Stories Table */}
+      <div className="p-4 shadow-lg bg-white w-full mb-6 rounded-lg border border-gray-200">
         <h2 className="text-xl font-semibold mb-4">Stories</h2>
         <table className="w-full border-collapse border border-gray-300">
           <thead>
@@ -40,17 +38,20 @@ const ImpactStories = () => {
             ))}
           </tbody>
         </table>
-      </Card>
+      </div>
       
-      <Card className="p-4 shadow-lg bg-white w-full">
+      {/* Add New Story Form */}
+      <div className="p-4 shadow-lg bg-white w-full rounded-lg border border-gray-200">
         <h2 className="text-xl font-semibold mb-4">Add New Story</h2>
-        <form>
-          <Input placeholder="Title" className="mb-4" />
-          <Input placeholder="Category" className="mb-4" />
-          <Input placeholder="Description" className="mb-4" />
-          <Button className="bg-blue-500 hover:bg-blue-600">Submit</Button>
+        <form className="space-y-4">
+          <input type="text" placeholder="Title" className="w-full p-2 border border-gray-300 rounded-lg" />
+          <input type="text" placeholder="Category" className="w-full p-2 border border-gray-300 rounded-lg" />
+          <input type="text" placeholder="Description" className="w-full p-2 border border-gray-300 rounded-lg" />
+          <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition w-full">
+            Submit
+          </button>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };
