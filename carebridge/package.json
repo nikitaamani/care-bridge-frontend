@@ -10,22 +10,15 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.0",
-<<<<<<< HEAD
-{
     "@radix-ui/react-progress": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "chart.js": "^4.4.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "leaflet": "^1.9.4"
-}
-
-    "framer-motion": "^12.4.5",
     "leaflet": "^1.9.4",
-=======
+    "framer-motion": "^12.4.5",
     "axios": "^1.8.0",
     "formik": "^2.4.6",
->>>>>>> e7d5ff0 (refactor signup form to use Formik and Yup for validation; add role selection and axios for API calls and add option to select role)
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
