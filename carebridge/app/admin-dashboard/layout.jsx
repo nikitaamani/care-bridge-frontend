@@ -71,7 +71,7 @@ export default function Layout({ children }) {
         <div className={admin.holder}></div>
         <h1>{user}</h1>
         </div>
-        <button className="{admin.checker} bg-red-600 text-white px-5 py-2 rounded hover:bg-red-800" onClick={handleLogout}>
+        <button className="{admin.checker} bg-[#F55920] text-white px-5 py-2 rounded hover:bg-[#F55920]" onClick={handleLogout}>
           Logout
         </button>
       </div>
