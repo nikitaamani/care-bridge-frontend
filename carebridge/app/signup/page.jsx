@@ -51,6 +51,7 @@ const SignupPage = () => {
     >
       <div className="max-w-md w-full bg-white bg-opacity-90 p-6 shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold text-center mb-4 text-black">Sign Up</h2>
+
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
             <Form className="space-y-4">
