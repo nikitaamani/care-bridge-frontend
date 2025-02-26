@@ -1,14 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignupPage = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   const initialValues = {
     username: "",
@@ -61,15 +67,37 @@ const SignupPage = () => {
                 <ErrorMessage name="email" component="p" className="text-red-500 text-sm" />
               </div>
 
-              <div>
+              {/* Password Field with Toggle */}
+              <div className="relative">
                 <label className="block text-black">Password</label>
-                <Field type="password" name="password" className="w-full p-2 border rounded text-black" />
+                <Field
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="w-full p-2 border rounded text-black"
+                />
+                <span
+                  className="absolute right-3 top-9 cursor-pointer text-gray-600"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
                 <ErrorMessage name="password" component="p" className="text-red-500 text-sm" />
               </div>
 
-              <div>
+              {/* Confirm Password Field with Toggle */}
+              <div className="relative">
                 <label className="block text-black">Confirm Password</label>
-                <Field type="password" name="confirmPassword" className="w-full p-2 border rounded text-black" />
+                <Field
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  className="w-full p-2 border rounded text-black"
+                />
+                <span
+                  className="absolute right-3 top-9 cursor-pointer text-gray-600"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
                 <ErrorMessage name="confirmPassword" component="p" className="text-red-500 text-sm" />
               </div>
 
