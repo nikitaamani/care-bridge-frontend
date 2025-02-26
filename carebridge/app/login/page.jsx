@@ -68,6 +68,13 @@ const LoginPage = () => {
                 <ErrorMessage name="password" component="p" className="text-red-500 text-sm" />
               </div>
 
+              {/* Forgot Password Link */}
+              <div className="text-right">
+                <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800 text-sm">
+                  Forgot Password?
+                </Link>
+              </div>
+
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded transition-colors duration-300 hover:bg-blue-800"
