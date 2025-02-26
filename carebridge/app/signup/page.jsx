@@ -114,7 +114,7 @@ const SignupPage = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#202952] text-white py-2 rounded transition-colors duration-300 hover:bg-[#F55920]"
+                className="w-full bg-blue-600 text-white py-2 rounded transition-colors duration-300 hover:bg-blue-800"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Signing Up..." : "Sign Up"}
@@ -125,7 +125,7 @@ const SignupPage = () => {
 
         <p className="mt-4 text-center text-black">
           Already have an account?{" "}
-          <Link href="/login" className="text-[#2f449e] hover:text-[#F55920]">
+          <Link href="/login" className="text-blue-600 hover:text-blue-800">
             Login here
           </Link>
         </p>
