@@ -1,63 +1,100 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import Link from "next/link";
+import axios from "axios";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-  confirmPassword: yup.string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
-});
+const SignupPage = () => {
+  const router = useRouter();
 
-export default function SignupForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "",
+  };
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required("Username is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    role: Yup.string().oneOf(["admin", "donor", "charity"], "Invalid role").required("Role is required"),
   });
 
-  const onSubmit = (data) => {
-    console.log("Signup Data:", data);
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      await axios.post("/api/signup", values);
+      router.push("/login");
+    } catch (error) {
+      console.error("Signup failed:", error.response?.data || error.message);
+    }
+    setSubmitting(false);
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: "url('https://salvusmission.org/wp-content/uploads/2024/02/Untitled-design-45.png')" }}
     >
       <div className="max-w-md w-full bg-white bg-opacity-90 p-6 shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold text-center mb-4 text-black">Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-black">Name</label>
-            <input {...register("name")} className="w-full p-2 border rounded text-black" />
-            <p className="text-black text-sm">{errors.name?.message}</p>
-          </div>
-          <div>
-            <label className="block text-black">Email</label>
-            <input {...register("email")} className="w-full p-2 border rounded text-black" />
-            <p className="text-black text-sm">{errors.email?.message}</p>
-          </div>
-          <div>
-            <label className="block text-black">Password</label>
-            <input type="password" {...register("password")} className="w-full p-2 border rounded text-black" />
-            <p className="text-black text-sm">{errors.password?.message}</p>
-          </div>
-          <div>
-            <label className="block text-black">Confirm Password</label>
-            <input type="password" {...register("confirmPassword")} className="w-full p-2 border rounded text-black" />
-            <p className="text-black text-sm">{errors.confirmPassword?.message}</p>
-          </div>
-          <button 
-            type="submit" 
-            className="w-full bg-blue-500 text-white py-2 rounded transition-colors duration-300 hover:bg-blue-800"
-          >
-            Sign Up
-          </button>
-        </form>
+
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          {({ isSubmitting }) => (
+            <Form className="space-y-4">
+              <div>
+                <label className="block text-black">Username</label>
+                <Field type="text" name="username" className="w-full p-2 border rounded text-black" />
+                <ErrorMessage name="username" component="p" className="text-red-500 text-sm" />
+              </div>
+
+              <div>
+                <label className="block text-black">Email</label>
+                <Field type="email" name="email" className="w-full p-2 border rounded text-black" />
+                <ErrorMessage name="email" component="p" className="text-red-500 text-sm" />
+              </div>
+
+              <div>
+                <label className="block text-black">Password</label>
+                <Field type="password" name="password" className="w-full p-2 border rounded text-black" />
+                <ErrorMessage name="password" component="p" className="text-red-500 text-sm" />
+              </div>
+
+              <div>
+                <label className="block text-black">Confirm Password</label>
+                <Field type="password" name="confirmPassword" className="w-full p-2 border rounded text-black" />
+                <ErrorMessage name="confirmPassword" component="p" className="text-red-500 text-sm" />
+              </div>
+
+              {/* Role Dropdown */}
+              <div>
+                <label className="block text-black">Select Role</label>
+                <Field as="select" name="role" className="w-full p-2 border rounded text-black">
+                  <option value="">Choose a role...</option>
+                  <option value="admin">Admin</option>
+                  <option value="donor">Donor</option>
+                  <option value="charity">Charity</option>
+                </Field>
+                <ErrorMessage name="role" component="p" className="text-red-500 text-sm" />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#202952] text-white py-2 rounded transition-colors duration-300 hover:bg-[#F55920]"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Signing Up..." : "Sign Up"}
+              </button>
+            </Form>
+          )}
+        </Formik>
 
         <p className="mt-4 text-center text-black">
           Already have an account?{" "}
@@ -68,4 +105,6 @@ export default function SignupForm() {
       </div>
     </div>
   );
-}
+};
+
+export default SignupPage;
