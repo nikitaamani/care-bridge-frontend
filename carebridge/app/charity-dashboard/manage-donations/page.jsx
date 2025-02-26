@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ManageDonations = ({ apiUrl = "" }) => {
-  const defaultDonations = [
-    { amount: 100, donorName: "John Doe", date: "2022-01-01", type: "Public" },
-    { amount: 200, donorName: "Jane Smith", date: "2022-02-01", type: "Anonymous" },
-  ];
-
-  const [donations, setDonations] = useState(defaultDonations);
-  const [filteredDonations, setFilteredDonations] = useState(defaultDonations);
+  const [donations, setDonations] = useState([]);
+  const [filteredDonations, setFilteredDonations] = useState([]);
   const [filter, setFilter] = useState({ date: "", amount: "", type: "" });
+  const [balance, setBalance] = useState(50000); // Dummy balance
+  const charityId = "charity_1"; // Replace with dynamic charity ID
 
   useEffect(() => {
     if (apiUrl) {
@@ -40,19 +38,31 @@ const ManageDonations = ({ apiUrl = "" }) => {
     setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
-  const exportToCSV = () => {
-    const headers = "Amount,Donor Name,Date,Type\n";
-    const csv = headers + filteredDonations.map(row => Object.values(row).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "donations.csv";
-    a.click();
+  const handleWithdraw = async () => {
+    const amount = prompt("Enter amount to withdraw:");
+    if (!amount || isNaN(amount) || amount <= 0) return alert("Invalid amount!");
+    if (amount > balance) return alert("Insufficient funds!");
+
+    try {
+      const { data } = await axios.post("http://127.0.0.1:5000/api/withdraw", {
+        charity_id: charityId,
+        amount: parseFloat(amount),
+      });
+
+      if (data.success) {
+        alert(`Withdrawal successful! New balance: $${data.new_balance}`);
+        setBalance(data.new_balance); // Update balance
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Withdrawal failed:", error);
+      alert("Failed to withdraw funds.");
+    }
   };
 
   return (
-    <div className="p-6 bg-[#323A5E] min-h-screen w-full">  
+    <div className="p-6 bg-[#323A5E] min-h-screen w-full">
       <h1 className="text-4xl font-bold mb-6 text-center text-white">Manage Donations</h1>
 
       {/* Filters */}
@@ -103,13 +113,14 @@ const ManageDonations = ({ apiUrl = "" }) => {
         </table>
       </div>
 
-      {/* Export Button */}
-      <div className="mt-6 flex justify-center w-full">
+      {/* Withdraw Funds Section */}
+      <div className="mt-6 flex flex-col items-center">
+        <h2 className="text-xl font-bold text-white">Available Balance: ${balance}</h2>
         <button
-          onClick={exportToCSV}
-          className="px-6 py-3 bg-[#202952] text-white font-semibold rounded-lg shadow-md hover:bg-[#F55920] w-full sm:w-auto"
+          onClick={handleWithdraw}
+          className="mt-3 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700"
         >
-          Export to CSV
+          Withdraw Funds
         </button>
       </div>
     </div>
