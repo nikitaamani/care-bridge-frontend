@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await axios.post("/request-password-reset", values);
+      const response = await axios.post("http://127.0.0.1:5000/request-password-reset", values);
       setSuccessMessage(response.data.message || "Check your email for reset instructions.");
       setErrorMessage("");
       resetForm();
