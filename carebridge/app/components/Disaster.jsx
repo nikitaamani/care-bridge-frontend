@@ -19,9 +19,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: '/leaflet/marker-icon.png',
   shadowUrl: '/leaflet/marker-shadow.png',
 });
-=======
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Image from 'next/image';
 
 // Disaster locations
 const disasterLocations = [
