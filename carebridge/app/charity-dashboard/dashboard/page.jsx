@@ -1,60 +1,71 @@
-import React from 'react'
+"use client";
 
-function page() {
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+
+// Dashboard Card Component (Replaces Missing Card)
+const DashboardCard = ({ title, value, color }) => (
+  <div className="p-4 shadow-lg bg-white text-center rounded-lg border border-gray-200">
+    <h2 className="text-xl font-semibold">{title}</h2>
+    <p className={`text-2xl font-bold ${color}`}>
+      {typeof value === "number" ? value.toLocaleString() : value}
+    </p>
+  </div>
+);
+
+const HomePage = () => {
+  // State for dynamic data
+  const [stats, setStats] = useState({
+    totalDonations: 0,
+    activeBeneficiaries: 0,
+    impactStories: 0,
+  });
+
+  useEffect(() => {
+    // Simulating API call (Replace this with real fetch)
+    setTimeout(() => {
+      setStats({
+        totalDonations: 50000,
+        activeBeneficiaries: 120,
+        impactStories: 35,
+      });
+    }, 1000);
+  }, []);
+
   return (
-    <div>
-        <nav class="navbar">
-            <h3>Welcome, Admin</h3>
-            <button class="logout-btn">Logout</button>
-        </nav>
-        <section class="dashboard">
-            <div class="card">
-                <h4>Total Donations</h4>
-                <p>$12,400</p>
-            </div>
-            <div class="card">
-                <h4>Beneficiaries Helped</h4>
-                <p>1,250</p>
-            </div>
-            <div class="card">
-                <h4>Active Charities</h4>
-                <p>8</p>
-            </div>
-        </section>
-        <section class="chart">
-            <h3>Donation Trends (Graph Placeholder)</h3>
-        </section>
-        <section class="donations">
-            <h3>Recent Donations</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Donor</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>$200</td>
-                        <td>Feb 20, 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Jane Smith</td>
-                        <td>$150</td>
-                        <td>Feb 18, 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Anonymous</td>
-                        <td>$300</td>
-                        <td>Feb 15, 2025</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </div>
-  )
-}
+    <div className="p-6 min-h-screen bg-gray-100 w-full">
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
+        Charity Dashboard
+      </h1>
 
-export default page
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <DashboardCard
+          title="Total Donations"
+          value={`$${stats.totalDonations}`}
+          color="text-green-600"
+        />
+        <DashboardCard
+          title="Active Beneficiaries"
+          value={stats.activeBeneficiaries}
+          color="text-blue-600"
+        />
+        <DashboardCard
+          title="Impact Stories"
+          value={stats.impactStories}
+          color="text-purple-600"
+        />
+      </div>
+
+      {/* Sample Button (Replace Missing Button Component) */}
+      <div className="text-center mt-6">
+        <Link href="/donate">
+          <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+            Make a Donation
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
