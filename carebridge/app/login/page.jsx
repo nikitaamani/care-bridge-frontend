@@ -39,21 +39,38 @@ const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Login failed");
       }
-
+  
       const data = await response.json();
-      localStorage.setItem("access_token", data.token); // Store token in localStorage
+      localStorage.setItem("access_token", data.token); // Store token
+      localStorage.setItem("user_role", data.role); // Store role
+  
       setIsLoggedIn(true);
-      router.push("/dashboard"); // Redirect to another page if needed
+  
+      // Redirect based on role
+      switch (data.role) {
+        case "donor":
+          router.push("/donor-dashboard");
+          break;
+        case "charity":
+          router.push("/charity-dashboard");
+          break;
+        case "admin":
+          router.push("/admin-dashboard");
+          break;
+        default:
+          router.push("/dashboard"); // Fallback in case role is missing
+      }
     } catch (error) {
       console.error("Login failed:", error.message);
     }
     setSubmitting(false);
   };
+  
 
   const handleLogout = () => {
     localStorage.removeItem("access_token"); // Remove token
