@@ -1,10 +1,6 @@
-"use client"
 "use client";
 
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const ageGroups = ["Children", "Teens", "Adults", "Elderly"];
 const aidTypes = ["Sanitary Pads", "Clean Water", "Food Supplies", "Medical Aid"];
@@ -33,26 +29,26 @@ const Beneficiaries = () => {
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Beneficiaries</h1>
       
       {/* Filters */}
-      <Card className="p-4 shadow-lg bg-white w-full mb-6">
+      <div className="p-4 shadow-lg bg-white w-full mb-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Filters</h2>
         <div className="flex flex-wrap gap-4">
-          <select name="location" value={filters.location} onChange={handleFilterChange} className="border p-2 rounded">
+          <select name="location" value={filters.location} onChange={handleFilterChange} className="border p-2 rounded w-full md:w-auto">
             <option value="">All Locations</option>
             {locations.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
           </select>
-          <select name="ageGroup" value={filters.ageGroup} onChange={handleFilterChange} className="border p-2 rounded">
+          <select name="ageGroup" value={filters.ageGroup} onChange={handleFilterChange} className="border p-2 rounded w-full md:w-auto">
             <option value="">All Age Groups</option>
             {ageGroups.map((age) => <option key={age} value={age}>{age}</option>)}
           </select>
-          <select name="aidReceived" value={filters.aidReceived} onChange={handleFilterChange} className="border p-2 rounded">
+          <select name="aidReceived" value={filters.aidReceived} onChange={handleFilterChange} className="border p-2 rounded w-full md:w-auto">
             <option value="">All Aid Types</option>
             {aidTypes.map((aid) => <option key={aid} value={aid}>{aid}</option>)}
           </select>
         </div>
-      </Card>
+      </div>
       
       {/* Beneficiary List */}
-      <Card className="p-4 shadow-lg bg-white w-full mb-6">
+      <div className="p-4 shadow-lg bg-white w-full mb-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Beneficiary List</h2>
         <table className="w-full border-collapse border border-gray-300">
           <thead>
@@ -74,13 +70,15 @@ const Beneficiaries = () => {
             ))}
           </tbody>
         </table>
-      </Card>
+      </div>
 
       {/* Reports */}
-      <Card className="p-4 shadow-lg bg-white w-full">
+      <div className="p-4 shadow-lg bg-white w-full rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Generate Reports</h2>
-        <Button className="bg-blue-500 hover:bg-blue-600">Download Report</Button>
-      </Card>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Download Report
+        </button>
+      </div>
     </div>
   );
 };
