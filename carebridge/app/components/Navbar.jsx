@@ -1,13 +1,13 @@
 'use client'
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronDown, Home, Info, Image, Briefcase, HelpCircle, LayoutDashboard, LogIn, Search } from "lucide-react";
-
+import { Menu, X, ChevronDown, Home, Info, Image, LayoutDashboard, LogIn, Search } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,20 +17,26 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Check if user is logged in (mock logic using localStorage)
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token); // Convert token presence to boolean
+  }, []);
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
+
           {/* Logo */}
-          <div className="text-xl font-bold text-gray-800">CareBridge</div>
+          <div className="text-xl font-bold text-white">CareBridge</div>
 
           {/* Centered Search Bar (Hidden on Mobile) */}
           <div className="hidden md:flex flex-grow justify-center">
             <div className="relative w-96">
-              <input 
-                type="text" 
-                placeholder="Search..." 
+              <input
+                type="text"
+                placeholder="Search..."
                 className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
               <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
@@ -39,24 +45,21 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4 items-center">
-            <Link href="/" className="flex items-center text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md">
+            <Link href="/" className="flex items-center text-white hover:text-blue-500 px-4 py-2 rounded-md">
               <Home className="w-5 h-5 mr-1" /> Home
             </Link>
-            <Link href="/about" className="flex items-center text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md">
+            <Link href="/about" className="flex items-center text-white hover:text-blue-500 px-4 py-2 rounded-md">
               <Info className="w-5 h-5 mr-1" /> About
             </Link>
-            <Link href="/gallery" className="flex items-center text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md">
+            <Link href="/gallery" className="flex items-center text-white hover:text-blue-500 px-4 py-2 rounded-md">
               <Image className="w-5 h-5 mr-1" /> Gallery
-            </Link>
-            <Link href="/services" className="flex items-center text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md">
-              <Briefcase className="w-5 h-5 mr-1" /> Services
             </Link>
 
             {/* Pages Dropdown */}
             <div className="relative">
-              <button 
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
-                className="flex items-center text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md"
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center text-white hover:text-blue-500 px-4 py-2 rounded-md"
               >
                 <LayoutDashboard className="w-5 h-5 mr-1" /> Pages <ChevronDown className="w-4 h-4 ml-1" />
               </button>
@@ -71,12 +74,14 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Login Button */}
-          <div className="hidden md:block">
-            <Link href="/login" className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-              <LogIn className="w-5 h-5 mr-1" /> Login
-            </Link>
-          </div>
+          {/* Show Login Button Only If User Is Not Logged In */}
+          {!isLoggedIn && (
+            <div className="hidden md:block">
+              <Link href="/login" className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                <LogIn className="w-5 h-5 mr-1" /> Login
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
@@ -97,14 +102,11 @@ const Navbar = () => {
           <Link href="/gallery" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <Image className="w-5 h-5 mr-1" /> Gallery
           </Link>
-          <Link href="/services" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <Briefcase className="w-5 h-5 mr-1" /> Services
-          </Link>
 
           {/* Mobile Pages Dropdown */}
           <div className="w-full">
-            <button 
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center justify-center w-full text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-md"
             >
               <LayoutDashboard className="w-5 h-5 mr-1" /> Pages <ChevronDown className="w-4 h-4 ml-1" />
@@ -119,16 +121,19 @@ const Navbar = () => {
             )}
           </div>
 
-          <Link href="/login" className="flex items-center px-4 py-2 bg-blue-500 text-white text-center rounded-md hover:bg-blue-600">
-            <LogIn className="w-5 h-5 mr-1" /> Login
-          </Link>
+          {/* Show Login Button Only If User Is Not Logged In */}
+          {!isLoggedIn && (
+            <Link href="/login" className="flex items-center px-4 py-2 bg-blue-500 text-white text-center rounded-md hover:bg-blue-600">
+              <LogIn className="w-5 h-5 mr-1" /> Login
+            </Link>
+          )}
 
           {/* Search Bar in Mobile Menu */}
           <div className="w-full">
             <div className="relative w-full mt-2">
-              <input 
-                type="text" 
-                placeholder="Search..." 
+              <input
+                type="text"
+                placeholder="Search..."
                 className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
               <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />

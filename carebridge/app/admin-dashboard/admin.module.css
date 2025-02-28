@@ -6,7 +6,7 @@
 
 /* Sidebar */
 .left {
-    width: 300px;
+    width: 350px;
     min-height: 100vh;
     background-color: #202952;
     padding: 2em;
@@ -27,17 +27,25 @@
     width: 80px;
     background-color: white;
     border-radius: 50%;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
+}
+.bottom {
+    display: flex;
+    padding-top:10%;
+    margin: 20px;
+    gap: 10px;
+    align-items: center; 
 }
 
 /* Sidebar Navigation */
 .navigation {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 50%;
+    gap: 10px;
 }
 
 .navigation a {
@@ -54,19 +62,21 @@
 }
 
 .navigation a i {
-    margin-right: 10px;
-    font-size: 1.25em;
+    margin-right: 20px;
+    font-size: 2.0em;
 }
 
 .navigation a:hover,
 .navigation a:focus {
     background-color: #F55920;
-    border-radius: 5px;
+    border-radius: 25px;
+    width: fit-content;
 }
 
 .navigation .active {
     background-color: #F55920;
-    border-radius: 5px;
+    border-radius: 25px;
+    width: fit-content;
 }
 
 /* Mobile Sidebar */
