@@ -41,6 +41,13 @@ const Dashboard = () => {
     { amount: 500, month: "Mar" },
   ]);
 
+  const [user, setUser] = useState(null);
+  const [selectedCharity, setSelectedCharity] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+
+
+
   const addDonation = (newDonation) => {
     setDonations([...donations, { amount: newDonation.amount, month: new Date().toLocaleString('default', { month: 'short' }) }]);
   };
@@ -59,7 +66,14 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {showForm && <DonationForm setShowForm={setShowForm} addDonation={addDonation} />}
+        {showForm && <DonationForm 
+                      setShowForm={setShowForm} 
+                      addDonation={addDonation} 
+                      user={user} 
+                      selectedCharity={selectedCharity} 
+                      selectedCategory={selectedCategory} 
+                    />
+}
 
         {activeSection === "Dashboard" && (
           <>

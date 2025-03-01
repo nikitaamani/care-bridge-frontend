@@ -1,13 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation }) => {
+const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation, user }) => {
   const [amount, setAmount] = useState("");
-  const [donorName, setDonorName] = useState("");
-  const [donations, setDonations] = useState([]); // State to store fetched donations
-  const [editingDonation, setEditingDonation] = useState(null); // Track the donation being edited
+  const [donorName, setDonorName] = useState(user?.name || "Anonymous");
+  const [donations, setDonations] = useState([]);
+  const [editingDonation, setEditingDonation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
+  // ✅ Ensure selected charity & category have valid defaults
+  const [selectedCharity, setSelectedCharity] = useState({ id: "", name: "" });
+  const [selectedCategory, setSelectedCategory] = useState({ id: "", name: "" });
 
   useEffect(() => {
     fetchDonations();
@@ -15,62 +19,114 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
 
   // ✅ READ: Fetch all donations
   const fetchDonations = async () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("You must be logged in to view donations.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/donations");
+      const token = localStorage.getItem("access_token");
+      const response = await fetch("http://localhost:5000/donations", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
       const data = await response.json();
       if (response.ok) {
         setDonations(data);
       } else {
-        setError("Failed to load donations");
+        setError(data.error || "Failed to load donations");
       }
     } catch (err) {
       setError("Network error. Try again later.");
     }
   };
+
+  // ✅ Call `fetchDonations()` when the page loads
+useEffect(() => {
+  fetchDonations();
+}, []);
 
   // ✅ CREATE: Submit a new donation
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!amount || isNaN(amount) || amount <= 0) return;
-
-    setLoading(true);
     setError("");
+    setLoading(true);
+
+    let token = localStorage.getItem("access_token");
+
+    if (!token || token === "undefined") {  // Check for undefined or empty token
+        console.error("❌ No token found! User must log in again.");
+        setError("Session expired. Please log in again.");
+        setLoading(false);
+        return;
+    }
+
+    if (!token.startsWith("Bearer ")) {
+        token = `Bearer ${token}`;  // Ensure correct format
+    }
 
     const donationData = {
-      amount: parseFloat(amount),
-      donor_name: donorName || "Anonymous",
-      donor_id: 1, // Replace with actual donor ID (from auth context)
-      charity_id: 1, // Replace with selected charity
-      category_id: 1, // Replace with selected category
-      donation_type: "money",
+        amount: parseFloat(amount) || 0,
+        donor_id: user?.id || 1,
+        charity_id: selectedCharity.id,
+        category_id: selectedCategory.id,
+        beneficiary_id: 1,
+        donation_type: "money",
+        status: "pending",
     };
 
+    console.log("✅ Sending donation data:", donationData);
+    console.log("🔑 Authorization Token:", token);
+
     try {
-      const response = await fetch("http://localhost:5000/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(donationData),
-      });
+        const response = await fetch("http://localhost:5000/donations", {
+            method: "POST",
+            headers: {
+                "Authorization": token,  // Ensure token is in correct format
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(donationData),
+        });
 
-      const result = await response.json();
+        const data = await response.json();
+        console.log("🔄 Server Response:", data);
 
-      if (response.ok) {
-        addDonation(result); // Add new donation to the list
-        fetchDonations(); // Refresh list
-        setShowForm(false);
-      } else {
-        setError(result.error || "Failed to process donation");
-      }
+        if (response.ok) {
+            alert("🎉 Donation Successful!");
+            setAmount("");
+            setError("");
+            fetchDonations();
+        } else {
+            console.error("❌ Donation failed. Server Response:", data);
+            setError(data.msg || "Failed to donate.");
+        }
     } catch (err) {
-      setError("Network error. Try again later.");
+        console.error("❌ Network error:", err);
+        setError("Network error. Try again later.");
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   // ✅ UPDATE: Edit an existing donation
   const handleUpdate = async () => {
     if (!editingDonation || !amount) return;
+
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("You must be logged in to update a donation.");
+      return;
+    }
+
+    if (parseFloat(amount) === editingDonation.amount) {
+      setError("No changes made to the donation amount.");
+      return;
+    }
 
     setLoading(true);
     setError("");
@@ -78,13 +134,16 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
     try {
       const response = await fetch(`http://localhost:5000/donations/${editingDonation.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
         body: JSON.stringify({ amount: parseFloat(amount) }),
       });
 
       if (response.ok) {
         updateDonation(editingDonation.id, parseFloat(amount));
-        fetchDonations(); // Refresh
+        fetchDonations();
         setEditingDonation(null);
         setAmount("");
       } else {
@@ -103,6 +162,10 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
     try {
       const response = await fetch(`http://localhost:5000/donations/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {
@@ -125,7 +188,7 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
           {editingDonation ? "Edit Donation" : "Make a Donation"}
         </h2>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-        
+
         <form onSubmit={editingDonation ? handleUpdate : handleSubmit}>
           <label className="block mb-2 text-gray-700">Your Name (Optional)</label>
           <input
@@ -134,6 +197,28 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
             onChange={(e) => setDonorName(e.target.value)}
             className="w-full p-2 border rounded mb-4"
           />
+
+          <label className="block mb-2 text-gray-700">Select Charity</label>
+          <select
+            value={selectedCharity.id}
+            onChange={(e) => setSelectedCharity({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text })}
+            className="w-full p-2 border rounded mb-4"
+          >
+            <option value="">Choose a Charity</option>
+            <option value="1">Charity A</option>
+            <option value="2">Charity B</option>
+          </select>
+
+          <label className="block mb-2 text-gray-700">Select Category</label>
+          <select
+            value={selectedCategory.id}
+            onChange={(e) => setSelectedCategory({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text })}
+            className="w-full p-2 border rounded mb-4"
+          >
+            <option value="">Choose a Category</option>
+            <option value="1">Education</option>
+            <option value="2">Health</option>
+          </select>
 
           <label className="block mb-2 text-gray-700">Donation Amount ($)</label>
           <input
@@ -145,54 +230,10 @@ const DonationForm = ({ setShowForm, addDonation, updateDonation, deleteDonation
             required
           />
 
-          <div className="flex justify-between">
-            <button
-              type="button"
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
-              onClick={() => setShowForm(false)}
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-              disabled={loading}
-            >
-              {loading ? "Processing..." : editingDonation ? "Update" : "Donate"}
-            </button>
-          </div>
+          <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded w-full" disabled={loading}>
+            {loading ? "Processing..." : editingDonation ? "Update" : "Donate"}
+          </button>
         </form>
-
-        <h3 className="mt-6 text-lg font-semibold text-gray-700">Your Donations</h3>
-        <ul className="mt-2 max-h-40 overflow-auto">
-          {donations.length === 0 ? (
-            <p className="text-sm text-gray-500">No donations yet.</p>
-          ) : (
-            donations.map((donation) => (
-              <li key={donation.id} className="border p-2 rounded flex justify-between items-center">
-                <span>${donation.amount}</span>
-                <div>
-                  <button
-                    className="text-blue-500 text-sm mr-2"
-                    onClick={() => {
-                      setEditingDonation(donation);
-                      setAmount(donation.amount);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="text-red-500 text-sm"
-                    onClick={() => handleDelete(donation.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))
-          )}
-        </ul>
       </div>
     </div>
   );

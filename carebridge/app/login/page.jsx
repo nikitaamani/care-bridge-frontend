@@ -46,7 +46,7 @@ const LoginPage = () => {
       }
   
       const data = await response.json();
-      localStorage.setItem("access_token", data.token); // Store token
+      localStorage.setItem("access_token", data.access_token); // Store token
       localStorage.setItem("user_role", data.role); // Store role
   
       setIsLoggedIn(true);
