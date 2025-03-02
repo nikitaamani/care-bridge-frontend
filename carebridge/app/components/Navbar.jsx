@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="text-xl font-bold">CareBridge</div>
+          <div className="text-xl font-bold"><Link href={'/'}/>CareBridge </div>
 
           {/* Centered Search Bar (Hidden on Mobile) */}
           <div className="hidden md:flex flex-grow justify-center">
