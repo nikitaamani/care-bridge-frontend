@@ -39,9 +39,9 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 'bg-transparent'"
               />
-              <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
+              <Search className="absolute left-3 top-2.5 w-5 h-5 text-black" />
             </div>
           </div>
 
