@@ -73,6 +73,79 @@ const Dashboard = () => {
     fetchDonations();
   }, []);
 
+  // Function to handle donation update
+  const handleUpdateDonation = async (donationId) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        console.error("No token found. User must be logged in.");
+        return;
+    }
+    console.log("DEBUG: Token:", token); // Add token debugging
+
+    try {
+        const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: 100, // Example: Update amount to 100
+                charity_id: 1, // Example: Update charity_id to 1
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.text(); // Handle non-JSON responses
+            throw new Error(errorData || "Failed to update donation");
+        }
+
+        const data = await response.json();
+        alert(data.message || "Donation updated successfully!");
+        fetchDonations(); // Refresh donations
+    } catch (err) {
+        console.error("Network error while updating donation:", err);
+        alert(err.message);
+    }
+};
+  // Function to handle donation deletion
+  const handleDeleteDonation = async (donationId) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No token found. User must be logged in.");
+      return;
+    }
+  
+    if (!window.confirm("Are you sure you want to delete this donation?")) {
+      return;
+    }
+  
+    try {
+      console.log(donationId)
+      const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response) // Add debugging for
+  
+      if (!response.ok) {
+        const errorData = await response.text(); // Handle non-JSON responses
+        throw new Error(errorData || "Failed to delete donation");
+      }
+  
+      const data = await response.json();
+      alert(data.message || "Donation deleted successfully!");
+      fetchDonations(); // Refresh donations
+    } catch (err) {
+      console.error("Network error while deleting donation:", err);
+      alert(err.message);
+    }
+  };
+
   // Function to update donation history after a new donation
   const addDonation = async (newDonation) => {
     setDonations((prev) => [
@@ -153,21 +226,38 @@ const Dashboard = () => {
                   <li key={donation.id} className="border p-4 rounded-lg shadow-md">
                     {/* Display Donor's Name if not anonymous */}
                     {donation.anonymous ? (
-                    <p className="text-gray-500"><strong>Donor:</strong> Anonymous</p>
+                      <p className="text-gray-500"><strong>Donor:</strong> Anonymous</p>
                     ) : (
-                    <p className="text-gray-700"><strong>Donor:</strong> {donation.donor_name || "Unknown"}</p>
+                      <p className="text-gray-700"><strong>Donor:</strong> {donation.donor_name || "Unknown"}</p>
                     )}
                     <p className="text-gray-700"><strong>Amount:</strong> ${donation.amount}</p>
                     <p className="text-gray-700"><strong>Status:</strong> {donation.status || "Completed"}</p>
                     <p className="text-gray-700"><strong>Charity:</strong> {donation.charity_id || "N/A"}</p>
                     <p className="text-gray-700"><strong>Date:</strong> {donation.next_donation_date || "One-time donation"}</p>
+
+                    {/* Update and Delete Buttons (only for pending donations) */}
+                    {donation.status === "pending" && (
+                      <div className="mt-2">
+                        <button
+                          onClick={() => handleUpdateDonation(donation.id)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={() => handleDeleteDonation(donation.id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
             )}
           </div>
         )}
-
       </div>
     </div>
   );
