@@ -1,49 +1,46 @@
-"use client"; // ✅ Add this line
+"use client";
 
 import { useRouter } from "next/navigation";
-import { FaDonate, FaHandHoldingHeart } from "react-icons/fa";
+import { FaDonate, FaShareAlt } from "react-icons/fa";
 
-const DonationPrompt = () => {
+const SocialChallenge = () => {
   const router = useRouter();
 
-  // Handle Donate Action (Redirect or API Call)
+  // Handle Donate Action (Redirect to donation page)
   const handleDonate = () => {
-    router.push("/donate"); // Redirect to donation page
-  };
-
-  // Handle Learn More Action
-  const handleLearnMore = () => {
-    router.push("/about"); // Redirect to about page
+    router.push("/donate");
   };
 
   return (
     <section className="bg-gray-50 py-20">
-      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-8 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
-          Make a Difference Today
-        </h2>
-        <p className="text-lg text-gray-600 mb-6">
-          Your donation helps provide essential resources like clean water,
-          education, and sanitary products to those in need. Every little bit
-          counts.
-        </p>
-
-        {/* Donation Form */}
-        <div className="space-y-6">
-          <div className="relative w-full max-w-sm mx-auto">
-            <span className="absolute left-4 top-3 text-gray-400 text-lg">
-              $
-            </span>
-            <input
-              type="number"
-              placeholder="Enter donation amount"
-              className="w-full p-4 pl-10 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              min="1"
-              step="0.01"
-            />
-          </div>
-
-          <div className="flex justify-center space-x-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center bg-white shadow-xl rounded-xl p-8">
+        {/* Left Side: Image */}
+        <div className="md:w-1/2 w-full p-4">
+          <img
+            src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Social Challenge"
+            className="rounded-lg shadow-md w-full h-auto object-cover"
+          />
+        </div>
+        
+        {/* Right Side: Information */}
+        <div className="md:w-1/2 w-full text-center md:text-left p-6">
+          <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
+            Join the Social Challenge!
+          </h2>
+          <p className="text-lg text-gray-600 mb-6">
+            Your donation supports clean water, education, and hygiene for those in need. 
+            Each donation brings us closer to our goal and inspires others to join the challenge!
+          </p>
+          
+          <h3 className="text-2xl font-bold text-gray-700 mb-3">Why Participate?</h3>
+          <ul className="text-gray-600 mb-6 list-disc pl-6">
+            <li>Make a direct impact on communities in need.</li>
+            <li>Encourage friends & family to give back.</li>
+            <li>Be part of a global movement for change.</li>
+          </ul>
+          
+          <div className="flex justify-center md:justify-start space-x-4">
             <button
               onClick={handleDonate}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-3 transition transform hover:scale-105 shadow-md"
@@ -52,11 +49,10 @@ const DonationPrompt = () => {
               <span className="font-semibold">Donate Now</span>
             </button>
             <button
-              onClick={handleLearnMore}
               className="px-6 py-3 bg-gray-100 text-blue-600 rounded-lg hover:bg-gray-200 flex items-center space-x-3 transition transform hover:scale-105 shadow-md"
             >
-              <FaHandHoldingHeart />
-              <span className="font-semibold">Learn More</span>
+              <FaShareAlt />
+              <span className="font-semibold">Share Challenge</span>
             </button>
           </div>
         </div>
@@ -65,4 +61,4 @@ const DonationPrompt = () => {
   );
 };
 
-export default DonationPrompt;
+export default SocialChallenge;

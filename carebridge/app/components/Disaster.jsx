@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import L from 'leaflet';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MapPin, AlertCircle } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 // Dynamically import react-leaflet components to avoid SSR issues
@@ -57,6 +58,26 @@ const disasterImages = [
 ];
 
 export default function DisasterRecovery() {
+  useEffect(() => {
+    const map = L.map('map').setView([10, 20], 2);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Add markers manually
+    disasterLocations.forEach(({ name, lat, lng, issue }) => {
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(`<strong>${name}</strong><br>${issue}`);
+    });
+
+    return () => {
+      map.remove();
+    };
+  }, []);
+
   return (
     <div className="container mx-auto px-6 py-16">
       {/* Header */}
@@ -80,19 +101,22 @@ export default function DisasterRecovery() {
 
         {/* Right: Map Section */}
         <div className="w-[600px] h-[600px] rounded-xl overflow-hidden shadow-2xl border border-gray-300">
-          <MapContainer center={[10, 20]} zoom={2} className="w-full h-full">
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {disasterLocations.map((location, index) => (
-              <Marker key={index} position={[location.lat, location.lng]}>
-                <Popup>
-                  <strong>{location.name}</strong>
-                  <br />
-                  {location.issue}
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+          <div id="map" className="w-full h-full"></div>
         </div>
+      </div>
+
+      {/* Disaster Locations with Lucide Icons */}
+      <h3 className="text-3xl font-semibold text-gray-900 text-center mt-16 mb-8">Disaster Zones</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {disasterLocations.map((location, index) => (
+          <div key={index} className="flex items-center p-4 border border-gray-300 shadow-lg rounded-xl bg-white">
+            <MapPin className="text-red-500 w-8 h-8 mr-4" />
+            <div>
+              <h4 className="text-xl font-semibold text-gray-900">{location.name}</h4>
+              <p className="text-gray-700">{location.issue}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Disaster Impact Section */}

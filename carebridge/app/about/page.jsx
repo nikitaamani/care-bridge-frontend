@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; 
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 export default function Team() {
     const [scrolling, setScrolling] = useState(false);
+    const router = useRouter(); // Next.js router for navigation
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,19 +46,7 @@ export default function Team() {
   
     return (
         <div className="h-screen flex flex-col">
-          {/* Navbar */}
-          <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
-            <div className="py-4 px-6 flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-800">Carebridge</h1>
-              <ul className="flex space-x-6">
-                <li><a href="/" className="text-gray-700 hover:text-blue-500">Home</a></li>
-                <li><a href="/about" className="text-gray-700 hover:text-blue-500">About</a></li>
-                <li><a href="/gallery" className="text-gray-700 hover:text-blue-500">Gallery</a></li>
-                <li><a href="/contact" className="text-gray-700 hover:text-blue-500">Contact</a></li>
-              </ul>
-            </div>
-          </nav>
-
+          <Navbar />
           {/* Content Wrapper */}
           <div className="flex-grow flex flex-col justify-center items-center bg-gray-100 p-6 pt-20">
             <div className="max-w-6xl w-full ">
@@ -88,7 +79,10 @@ export default function Team() {
                     We envision a world where every child has equal opportunities for growth, development, and success, regardless of their circumstances.
                   </p>
       
-                  <button className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-800">
+                  <button 
+                    onClick={() => router.push("/donate")} 
+                    className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-800 transition duration-300"
+                  >
                     Support Our Vision
                   </button>
                 </div>
@@ -116,5 +110,5 @@ export default function Team() {
           {/* Footer */}
           <Footer />
         </div>
-      );
+    );
 }

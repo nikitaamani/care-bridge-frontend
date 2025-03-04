@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md text-black" : "bg-transparent text-white"
+        scrolling ? " bg-opacity-80 backdrop-blur-md shadow-md text-black" : "bg-transparent text-black"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,7 +50,7 @@ const Navbar = () => {
             <Link
               href="/"
               className={`flex items-center px-4 py-2 rounded-md ${
-                scrolling ? "text-black hover:text-blue-500" : "text-white hover:text-blue-500"
+                scrolling ? "text-black hover:text-blue-500" : "text-slate-900 hover:text-orange-500"
               }`}
             >
               <Home className="w-5 h-5 mr-1" /> Home
@@ -58,7 +58,7 @@ const Navbar = () => {
             <Link
               href="/about"
               className={`flex items-center px-4 py-2 rounded-md ${
-                scrolling ? "text-black hover:text-blue-500" : "text-white hover:text-blue-500"
+                scrolling ? "text-black hover:text-blue-500" : "text-slate-900 hover:text-orange-500"
               }`}
             >
               <Info className="w-5 h-5 mr-1" /> About
@@ -66,7 +66,7 @@ const Navbar = () => {
             <Link
               href="/gallery"
               className={`flex items-center px-4 py-2 rounded-md ${
-                scrolling ? "text-black hover:text-blue-500" : "text-white hover:text-blue-500"
+                scrolling ? "text-black hover:text-blue-500" : "text-slate-900 hover:text-orange-500"
               }`}
             >
               <Image className="w-5 h-5 mr-1" /> Gallery
@@ -77,7 +77,7 @@ const Navbar = () => {
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className={`flex items-center px-4 py-2 rounded-md ${
-                  scrolling ? "text-black hover:text-blue-500" : "text-white hover:text-blue-500"
+                  scrolling ? "text-black hover:text-blue-500" : "text-slate-900 hover:text-orange-500"
                 }`}
               >
                 <LayoutDashboard className="w-5 h-5 mr-1" /> Pages <ChevronDown className="w-4 h-4 ml-1" />
