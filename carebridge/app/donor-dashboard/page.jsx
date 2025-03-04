@@ -39,6 +39,8 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [selectedCharity, setSelectedCharity] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [editingDonation, setEditingDonation] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   // Fetch donations from backend
   const fetchDonations = async () => {
@@ -74,40 +76,11 @@ const Dashboard = () => {
   }, []);
 
   // Function to handle donation update
-  const handleUpdateDonation = async (donationId) => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-        console.error("No token found. User must be logged in.");
-        return;
-    }
-    console.log("DEBUG: Token:", token); // Add token debugging
+  const handleUpdateDonation = (donation) => {
+    setEditingDonation(donation);
+    setShowEditForm(true);
+  };
 
-    try {
-        const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
-            method: "PATCH",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                amount: 100, // Example: Update amount to 100
-                charity_id: 1, // Example: Update charity_id to 1
-            }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.text(); // Handle non-JSON responses
-            throw new Error(errorData || "Failed to update donation");
-        }
-
-        const data = await response.json();
-        alert(data.message || "Donation updated successfully!");
-        fetchDonations(); // Refresh donations
-    } catch (err) {
-        console.error("Network error while updating donation:", err);
-        alert(err.message);
-    }
-};
   // Function to handle donation deletion
   const handleDeleteDonation = async (donationId) => {
     const token = localStorage.getItem("access_token");
@@ -115,11 +88,11 @@ const Dashboard = () => {
       console.error("No token found. User must be logged in.");
       return;
     }
-  
+
     if (!window.confirm("Are you sure you want to delete this donation?")) {
       return;
     }
-  
+
     try {
       console.log(donationId)
       const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
@@ -131,12 +104,12 @@ const Dashboard = () => {
       });
 
       console.log(response) // Add debugging for
-  
+
       if (!response.ok) {
         const errorData = await response.text(); // Handle non-JSON responses
         throw new Error(errorData || "Failed to delete donation");
       }
-  
+
       const data = await response.json();
       alert(data.message || "Donation deleted successfully!");
       fetchDonations(); // Refresh donations
@@ -185,6 +158,16 @@ const Dashboard = () => {
             user={user}
             selectedCharity={selectedCharity}
             selectedCategory={selectedCategory}
+          />
+        )}
+
+        {showEditForm && (
+          <DonationForm
+            setShowForm={setShowEditForm}
+            addDonation={addDonation}
+            user={user}
+            donation={editingDonation}
+            fetchDonations={fetchDonations}
           />
         )}
 
@@ -239,7 +222,7 @@ const Dashboard = () => {
                     {donation.status === "pending" && (
                       <div className="mt-2">
                         <button
-                          onClick={() => handleUpdateDonation(donation.id)}
+                          onClick={() => handleUpdateDonation(donation)}
                           className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
                         >
                           Update
@@ -262,5 +245,6 @@ const Dashboard = () => {
     </div>
   );
 };
+
 
 export default Dashboard;
