@@ -4,6 +4,7 @@ import { FiHome, FiDollarSign, FiRepeat, FiHeart, FiCreditCard, FiBarChart, FiUs
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import DonationForm from "./DonationForm";
+import ProfileSettings from "./ProfileSettings" // Import the ProfileSettingsPage component
 
 const Sidebar = ({ setActiveSection }) => {
   return (
@@ -143,12 +144,14 @@ const Dashboard = () => {
       <div className="ml-64 p-6 bg-gray-100 min-h-screen w-full">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">{activeSection}</h1>
-          <button
-            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-            onClick={() => setShowForm(true)}
-          >
-            Quick Donate
-          </button>
+          {activeSection !== "Profile Settings" && (
+            <button
+              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              onClick={() => setShowForm(true)}
+            >
+              Quick Donate
+            </button>
+          )}
         </div>
 
         {showForm && (
@@ -241,10 +244,13 @@ const Dashboard = () => {
             )}
           </div>
         )}
+
+        {activeSection === "Profile Settings" && (
+          <ProfileSettings onClose={() => setActiveSection("Dashboard")} />
+        )}
       </div>
     </div>
   );
 };
-
 
 export default Dashboard;
