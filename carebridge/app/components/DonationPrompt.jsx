@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Progress } from "../components/ui/progress"; // Relative import
 import { Button } from "../components/ui/button";   // Relative import
-import { Share2 } from "lucide-react";
+import { Share2, Plus, Heart, Users } from "lucide-react";
 
 export default function FundraisingPage() {
   const [raisedAmount, setRaisedAmount] = useState(7500);
@@ -35,42 +35,64 @@ export default function FundraisingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-gray-900 p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
-        <h1 className="text-3xl font-bold text-center">CareBridge Fundraising</h1>
-        <p className="text-center text-lg text-gray-600 mt-2">
-          Join us in making a difference! Start a campaign, track donations, or take on a social media challenge.
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 text-gray-900 p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-900">CareBridge Fundraising</h1>
+          <p className="text-lg text-gray-600 mt-3">
+            Join us in making a difference! Start a campaign, track donations, or take on a social media challenge.
+          </p>
+        </div>
 
         {/* Real-Time Donation Tracker */}
-        <div className="mt-6">
-          <h2 className="text-2xl font-semibold">Real-Time Donation Tracker</h2>
-          <p className="text-gray-700 mt-2">${raisedAmount} out of ${goalAmount} raised this month!</p>
-          <Progress value={progress} className="w-full h-4 mt-2 bg-gray-300" />
+        <div className="mt-8 bg-blue-50 p-6 rounded-xl">
+          <h2 className="text-2xl font-semibold text-blue-800">Real-Time Donation Tracker</h2>
+          <p className="text-gray-700 mt-2">
+            ${raisedAmount.toLocaleString()} out of ${goalAmount.toLocaleString()} raised this month!
+          </p>
+          <Progress value={progress} className="w-full h-3 mt-4 bg-blue-100" />
+          <div className="text-sm text-gray-600 mt-2">
+            {progress.toFixed(1)}% of the goal achieved
+          </div>
         </div>
 
         {/* Peer-to-Peer Fundraising */}
-        <div className="mt-8 bg-blue-100 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-blue-700">Start Your Own Fundraiser</h2>
-          <p className="text-gray-700 mt-2">
-            Create a birthday fundraiser and invite your friends to support!
-          </p>
-          <Button 
-            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white" 
+        <div className="mt-8 bg-green-50 p-6 rounded-xl">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-green-100 rounded-full">
+              <Heart className="w-6 h-6 text-green-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-green-800">Start Your Own Fundraiser</h2>
+              <p className="text-gray-700 mt-1">
+                Create a birthday fundraiser and invite your friends to support!
+              </p>
+            </div>
+          </div>
+          <Button
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
             onClick={handleStartFundraiser}
           >
-            Start Fundraiser
+            <Plus className="w-5 h-5 mr-2" /> Start Fundraiser
           </Button>
         </div>
 
         {/* Social Media Challenge */}
-        <div className="mt-8 bg-green-100 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-green-700">#CareBridgeChallenge</h2>
-          <p className="text-gray-700 mt-2">
-            Donate $10 and tag 3 friends to do the same!
-          </p>
-          <Button 
-            className="mt-4 bg-green-500 hover:bg-green-600 text-white flex items-center"
+        <div className="mt-8 bg-purple-50 p-6 rounded-xl">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-purple-100 rounded-full">
+              <Users className="w-6 h-6 text-purple-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-purple-800">#CareBridgeChallenge</h2>
+              <p className="text-gray-700 mt-1">
+                Donate $10 and tag 3 friends to do the same!
+              </p>
+            </div>
+          </div>
+          <Button
+            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white w-full sm:w-auto flex items-center"
             onClick={handleShareChallenge}
           >
             <Share2 className="w-5 h-5 mr-2" /> Share Challenge

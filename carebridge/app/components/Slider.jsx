@@ -36,17 +36,17 @@ const ImageSlider = () => {
   ];
 
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row items-center justify-center text-center p-3 bg-gray-300">
+    <div className="w-full min-h-screen flex flex-col lg:flex-row items-center justify-center text-center p-6 bg-gradient-to-r from-gray-100 to-gray-200">
       {/* Image Section */}
-      <div className="hidden lg:block w-1/3 p-5">
+      <div className="hidden lg:block w-1/3 p-6">
         <Image 
           src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg"
           alt="Support Our Mission"
           width={800}
           height={800}
-          className="rounded-lg shadow-lg object-cover"
+          className="rounded-lg shadow-2xl object-cover transform hover:scale-105 transition-transform duration-300"
         />
-        <p className="mt-4 text-gray-700 text-lg font-semibold">
+        <p className="mt-6 text-gray-700 text-lg font-semibold italic">
           Together, we can build a brighter future. Your support helps provide access to clean water, quality education, and essential resources for communities in need.
         </p>
       </div>
@@ -54,9 +54,9 @@ const ImageSlider = () => {
       {/* Content Section */}
       <div className="w-full lg:w-2/3 flex flex-col items-center">
         {/* Statements Section */}
-        <div className="mb-8 max-w-3xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Making a Difference</h2>
-          <p className="text-gray-600 text-lg">
+        <div className="mb-10 max-w-3xl">
+          <h2 className="text-4xl font-bold text-gray-800 mb-6">Making a Difference</h2>
+          <p className="text-gray-600 text-lg leading-relaxed">
             Our mission is to provide clean water, education, food, and hygiene solutions to those in need. 
             Every initiative we take is a step towards a healthier and brighter future. Join us in making a meaningful impact.
           </p>
@@ -65,7 +65,7 @@ const ImageSlider = () => {
         {/* Image Slider */}
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={15}
+          spaceBetween={20}
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
@@ -75,22 +75,22 @@ const ImageSlider = () => {
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
-          className="w-full max-w-5xl rounded-lg shadow-lg overflow-hidden"
+          className="w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden"
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className="relative rounded-lg overflow-hidden shadow-md group">
+              <div className="relative rounded-lg overflow-hidden shadow-md group transform hover:scale-105 transition-transform duration-300">
                 <Image 
                   src={slide.image} 
                   alt={slide.title} 
                   width={500} 
                   height={350} 
-                  className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-64 object-cover"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white p-5">
-                  <h3 className="text-xl font-bold mb-2">{slide.title}</h3>
-                  <p className="text-sm text-gray-200 mb-2">{slide.description.substring(0, 100)}...</p>
-                  <Link href={slide.link} className="mt-2 px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white p-6">
+                  <h3 className="text-2xl font-bold mb-3">{slide.title}</h3>
+                  <p className="text-sm text-gray-200 mb-4">{slide.description.substring(0, 100)}...</p>
+                  <Link href={slide.link} className="mt-2 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
                     Learn More
                   </Link>
                 </div>
@@ -100,13 +100,13 @@ const ImageSlider = () => {
         </Swiper>
 
         {/* Call to Action */}
-        <div className="text-center mt-8">
-          <h2 className="text-2xl font-semibold mb-3">Support Our Projects</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-5">
+        <div className="text-center mt-10">
+          <h2 className="text-3xl font-semibold mb-4">Support Our Projects</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-6 text-lg leading-relaxed">
             Your donation helps us provide clean water, education, food, and hygiene to those in need. 
             Every contribution brings us one step closer to changing lives.
           </p>
-          <Link href="/donate" className="px-5 py-3 bg-red-600 text-white rounded-lg text-lg hover:bg-orange-600 transition">
+          <Link href="/donate" className="px-8 py-3 bg-red-600 text-white rounded-lg text-lg hover:bg-orange-600 transition">
             Donate Now
           </Link>
         </div>
