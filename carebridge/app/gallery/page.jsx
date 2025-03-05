@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Footer from '../components/Footer';
 import { useState, useEffect } from "react";
+import Navbar from '../components/Navbar';
 
 export default function Gallery() {
   const [scrolling, setScrolling] = useState(false);
@@ -21,17 +22,7 @@ export default function Gallery() {
     <div className="min-h-screen bg-gray-100">
       
       {/* Navbar */}
-      <nav className={`bg-white fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
-            <div className="py-4 px-6 flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-black">Carebridge</h1>
-              <ul className="flex space-x-6">
-                <li><a href="/" className="text-black hover:text-blue-500">Home</a></li>
-                <li><a href="/about" className="text-black hover:text-blue-500">About</a></li>
-                <li><a href="/gallery" className="text-black hover:text-blue-500">Gallery</a></li>
-                <li><a href="/contact" className="text-black hover:text-blue-500">Contact</a></li>
-              </ul>
-            </div>
-          </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <div 

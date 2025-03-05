@@ -2,6 +2,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import Footer from "../../components/Footer";
+import Navbar from "@/app/components/Navbar";
 
 const stories = {
   kenya: {
@@ -52,15 +53,7 @@ const StoryDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Carebridge</h1>
-        <ul className="flex space-x-6">
-          <li><a href="/" className="text-gray-700 hover:text-blue-500">Home</a></li>
-          <li><a href="/about" className="text-gray-700 hover:text-blue-500">About</a></li>
-          <li><a href="/gallery" className="text-gray-700 hover:text-blue-500">Gallery</a></li>
-          <li><a href="/contact" className="text-gray-700 hover:text-blue-500">Contact</a></li>
-        </ul>
-      </nav>
+     <Navbar />
 
       <div className="container mx-auto py-16 px-6">
         <h2 className="text-4xl font-semibold text-gray-800 mb-4">{story.title}</h2>

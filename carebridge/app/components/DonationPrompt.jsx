@@ -1,68 +1,82 @@
-"use client"; // ✅ Add this line
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { Progress } from "../components/ui/progress"; // Relative import
+import { Button } from "../components/ui/button";   // Relative import
+import { Share2 } from "lucide-react";
 
-import { useRouter } from "next/navigation";
-import { FaDonate, FaHandHoldingHeart } from "react-icons/fa";
+export default function FundraisingPage() {
+  const [raisedAmount, setRaisedAmount] = useState(7500);
+  const goalAmount = 10000;
+  const progress = (raisedAmount / goalAmount) * 100;
 
-const DonationPrompt = () => {
-  const router = useRouter();
-
-  // Handle Donate Action (Redirect or API Call)
-  const handleDonate = () => {
-    router.push("/donate"); // Redirect to donation page
+  // Function to handle fundraiser creation
+  const handleStartFundraiser = () => {
+    alert("Redirecting to fundraiser creation page...");
+    window.location.href = "/create-fundraiser"; // Adjust this route if needed
   };
 
-  // Handle Learn More Action
-  const handleLearnMore = () => {
-    router.push("/about"); // Redirect to about page
+  // Function to handle sharing challenge
+  const handleShareChallenge = async () => {
+    const shareText = "Join the #CareBridgeChallenge! Donate $10 and tag 3 friends to do the same.";
+    const shareUrl = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "CareBridge Challenge", text: shareText, url: shareUrl });
+        alert("Challenge shared successfully!");
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+      alert("Challenge link copied to clipboard!");
+    }
   };
 
   return (
-    <section className="bg-gray-50 py-20">
-      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-8 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
-          Make a Difference Today
-        </h2>
-        <p className="text-lg text-gray-600 mb-6">
-          Your donation helps provide essential resources like clean water,
-          education, and sanitary products to those in need. Every little bit
-          counts.
+    <div className="min-h-screen bg-slate-100 text-gray-900 p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
+        <h1 className="text-3xl font-bold text-center">CareBridge Fundraising</h1>
+        <p className="text-center text-lg text-gray-600 mt-2">
+          Join us in making a difference! Start a campaign, track donations, or take on a social media challenge.
         </p>
 
-        {/* Donation Form */}
-        <div className="space-y-6">
-          <div className="relative w-full max-w-sm mx-auto">
-            <span className="absolute left-4 top-3 text-gray-400 text-lg">
-              $
-            </span>
-            <input
-              type="number"
-              placeholder="Enter donation amount"
-              className="w-full p-4 pl-10 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              min="1"
-              step="0.01"
-            />
-          </div>
+        {/* Real-Time Donation Tracker */}
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold">Real-Time Donation Tracker</h2>
+          <p className="text-gray-700 mt-2">${raisedAmount} out of ${goalAmount} raised this month!</p>
+          <Progress value={progress} className="w-full h-4 mt-2 bg-gray-300" />
+        </div>
 
-          <div className="flex justify-center space-x-6">
-            <button
-              onClick={handleDonate}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-3 transition transform hover:scale-105 shadow-md"
-            >
-              <FaDonate />
-              <span className="font-semibold">Donate Now</span>
-            </button>
-            <button
-              onClick={handleLearnMore}
-              className="px-6 py-3 bg-gray-100 text-blue-600 rounded-lg hover:bg-gray-200 flex items-center space-x-3 transition transform hover:scale-105 shadow-md"
-            >
-              <FaHandHoldingHeart />
-              <span className="font-semibold">Learn More</span>
-            </button>
-          </div>
+        {/* Peer-to-Peer Fundraising */}
+        <div className="mt-8 bg-blue-100 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold text-blue-700">Start Your Own Fundraiser</h2>
+          <p className="text-gray-700 mt-2">
+            Create a birthday fundraiser and invite your friends to support!
+          </p>
+          <Button 
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white" 
+            onClick={handleStartFundraiser}
+          >
+            Start Fundraiser
+          </Button>
+        </div>
+
+        {/* Social Media Challenge */}
+        <div className="mt-8 bg-green-100 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold text-green-700">#CareBridgeChallenge</h2>
+          <p className="text-gray-700 mt-2">
+            Donate $10 and tag 3 friends to do the same!
+          </p>
+          <Button 
+            className="mt-4 bg-green-500 hover:bg-green-600 text-white flex items-center"
+            onClick={handleShareChallenge}
+          >
+            <Share2 className="w-5 h-5 mr-2" /> Share Challenge
+          </Button>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default DonationPrompt;
+}

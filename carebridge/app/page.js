@@ -9,6 +9,7 @@ import ImageSlider from './components/Slider';
 import Footer from './components/Footer';
 import DonateWithGiving from './donate-with-giving/page';
 
+
 const Home = () => {
   return (
     <div>
@@ -21,6 +22,7 @@ const Home = () => {
       <DonateWithGiving />
       <DonationPrompt />
       <Footer />
+     
     </div>
   );
 };

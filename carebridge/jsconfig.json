@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // Base directory for resolving paths
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"] // Map @/ to the root directory
     }
   }
 }
