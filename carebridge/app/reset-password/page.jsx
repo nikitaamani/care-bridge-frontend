@@ -32,7 +32,7 @@ const ResetPassword = ({ params }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await axios.post(`/reset-password/${token}`, {
+      await axios.post(`http://localhost:5000/reset-password/${token}`, {
         password: values.password,
       });
 

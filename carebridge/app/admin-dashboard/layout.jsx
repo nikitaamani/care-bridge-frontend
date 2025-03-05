@@ -2,20 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import admin from "./admin.module.css";
-import 'remixicon/fonts/remixicon.css';
+import "remixicon/fonts/remixicon.css";
 
 export default function Layout({ children }) {
-
   const pathname = usePathname();
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Toggle sidebar for mobile
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // Handle logout
   const handleLogout = () => {
-    fetch("/api/logout", {
+    fetch("http://localhost:5000/logout", {
       method: "POST",
       credentials: "include",
     })
@@ -23,13 +29,14 @@ export default function Layout({ children }) {
         sessionStorage.removeItem("adminToken");
         router.push("/login");
       })
-      .catch((err) => console.error("Logout failed:", err));
+      .catch((err) => {
+        console.error("Logout failed:", err);
+        alert("Logout failed. Please try again.");
+      });
   };
-  useEffect(() => {
-    fetch("https://my-json-server.typicode.com/typicode/demo/profile")
-      .then((res) => res.json())
-      .then((data) => setUser(data.name || "Kenyan"));
-  }, []);
+
+  // Fetch user data
+  
 
   return (
     <div className={admin.main}>
@@ -40,9 +47,8 @@ export default function Layout({ children }) {
 
       {/* Sidebar */}
       <div className={`${admin.left} ${isSidebarOpen ? admin.active : ""}`}>
-
         <nav className={admin.navigation}>
-          <Link href="/admin-dashboard" className={pathname === "/admin" ? admin.active : ""}>
+          <Link href="/admin-dashboard" className={pathname === "/admin-dashboard" ? admin.active : ""}>
             <i className="ri-home-3-line"></i>
             <span>Home</span>
           </Link>
@@ -62,25 +68,22 @@ export default function Layout({ children }) {
             <i className="ri-bar-chart-fill"></i>
             <span>Platform Statistics</span>
           </Link>
-          <Link href="/admin-dashboard/settings" className={pathname.includes("settings") ? admin.active : ""}>
-            <i className="ri-settings-5-line"></i>
-            <span>Settings</span>
-          </Link>
         </nav>
+
+        {/* User Info and Logout Button */}
         <div className={admin.bottom}>
-        <div className={admin.holder}></div>
-        <h1>{user}</h1>
+          <p className="text-center font-semibold">{user}</p>
+          <button
+            className="bg-[#F55920] text-white px-5 py-2 rounded hover:bg-[#F55920] mt-3"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
-        <button className="{admin.checker} bg-[#F55920] text-white px-5 py-2 rounded hover:bg-[#F55920]" onClick={handleLogout}>
-          Logout
-        </button>
       </div>
 
       {/* Main Content */}
-      <div className={admin.right}>
-        
-        {children}
-      </div>
+      <div className={admin.right}>{children}</div>
     </div>
   );
 }

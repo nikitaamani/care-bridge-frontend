@@ -7,10 +7,18 @@ const ManageCharities = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/api/admin/charities')
+    const token = localStorage.getItem("token");
+  
+    fetch("http://localhost:5000/charities", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Failed to fetch charities");
+          throw new Error("Failed to fetch charities. Please try again later.");
         }
         return res.json();
       })
@@ -25,11 +33,20 @@ const ManageCharities = () => {
   }, []);
 
   const deleteCharity = (id) => {
-    fetch(`/api/admin/charities/${id}`, { method: 'DELETE' })
-      .then(() => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:5000/api/admin/charities/${id}`, {
+      method: 'DELETE',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete charity. Please try again later.");
+        }
         setCharities((prev) => prev.filter((charity) => charity.id !== id));
       })
-      .catch((err) => setError("Failed to delete charity"));
+      .catch((err) => setError(err.message));
   };
 
   return (

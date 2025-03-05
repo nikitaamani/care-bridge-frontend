@@ -7,10 +7,26 @@ const Users = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/admin/users")
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setError("No authentication token found.");
+      setLoading(false);
+      return;
+    }
+
+    fetch("http://localhost:5000/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Failed to fetch users");
+          return res.text().then(text => {
+            throw new Error(`Failed to fetch users: ${res.status} - ${text}`);
+          });
         }
         return res.json();
       })
@@ -23,6 +39,37 @@ const Users = () => {
         setLoading(false);
       });
   }, []);
+
+  const deleteUser = (id) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("No authentication token found.");
+      return;
+    }
+
+    fetch(`http://127.0.0.1:5000/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.text().then((text) => {
+            throw new Error(`Failed to delete user: ${res.status} - ${text}`);
+          });
+        }
+        return res.json();
+      })
+      .then(() => {
+        setUsers((prev) => prev.filter((user) => user.id !== id));
+      })
+      .catch((err) => {
+        console.error("Error deleting user:", err);
+      });
+  };
 
   return (
     <div className="p-6 bg-white shadow rounded-lg w-full">
@@ -40,6 +87,12 @@ const Users = () => {
           <h3 className="text-lg font-semibold text-black">{user.name}</h3>
           <p className="text-gray-700">Email: {user.email}</p>
           <p className="text-gray-700">Role: {user.role}</p>
+          <button
+            className="bg-red-500 text-white px-4 py-1 rounded mt-2"
+            onClick={() => deleteUser(user.id)}
+          >
+            Delete User
+          </button>
         </div>
       ))}
     </div>
