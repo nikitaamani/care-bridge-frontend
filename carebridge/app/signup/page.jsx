@@ -37,15 +37,47 @@ const SignupPage = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
+    console.log("Sending signup request:", values); // Debugging
+  
     try {
+<<<<<<< HEAD
       const response = await axios.post("http://localhost:5000/auth/register", values);
       console.log("Signup Success:", response.data);
       router.push("/login"); // Redirect to login after successful signup
+=======
+      const response = await fetch("http://127.0.0.1:5000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email,
+          password: values.password,
+          confirmPassword: values.confirmPassword,  // Ensure confirmPassword is sent
+          role: values.role || "donor"  // Default to "donor" if empty
+        }),
+      });
+  
+      const responseData = await response.json();
+      console.log("Response from backend:", responseData); // Debugging
+  
+      if (!response.ok) {
+        throw new Error(responseData.error || "Signup failed");
+      }
+  
+      console.log("Signup successful!");
+      router.push("/login");
+>>>>>>> 715107261d73ec853c581737a45b14a87739f43f
     } catch (error) {
-      console.error("Signup failed:", error.response?.data || error.message);
+      console.error("Signup failed:", error.message);
+      alert(`Signup failed: ${error.message}`);
     }
+  
     setSubmitting(false);
   };
+  
+  
+  
+  
 
   const handleGoogleSignup = () => {
     signIn("google", { callbackUrl: "/dashboard" }); // Redirect to dashboard after Google signup

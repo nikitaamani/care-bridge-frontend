@@ -7,6 +7,8 @@ import DonationPrompt from './components/DonationPrompt';
 import PopularContributions from './components/Popular';
 import ImageSlider from './components/Slider';
 import Footer from './components/Footer';
+import DonateWithGiving from './donate-with-giving/page';
+
 
 const Home = () => {
   return (
@@ -17,8 +19,10 @@ const Home = () => {
       <DisasterRecovery />
       <PopularContributions />
       <ImageSlider />
+      <DonateWithGiving />
       <DonationPrompt />
       <Footer />
+     
     </div>
   );
 };

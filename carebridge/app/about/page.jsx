@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 export default function Team() {
     const [scrolling, setScrolling] = useState(false);
@@ -44,17 +45,7 @@ export default function Team() {
     return (
         <div className="h-screen flex flex-col">
           {/* Navbar */}
-          <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolling ? "bg-white bg-opacity-80 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
-            <div className="py-4 px-6 flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-800">Carebridge</h1>
-              <ul className="flex space-x-6">
-                <li><a href="/" className="text-gray-700 hover:text-blue-500">Home</a></li>
-                <li><a href="/about" className="text-gray-700 hover:text-blue-500">About</a></li>
-                <li><a href="/gallery" className="text-gray-700 hover:text-blue-500">Gallery</a></li>
-                <li><a href="/contact" className="text-gray-700 hover:text-blue-500">Contact</a></li>
-              </ul>
-            </div>
-          </nav>
+          <Navbar />
 
           {/* Content Wrapper */}
           <div className="flex-grow flex flex-col justify-center items-center bg-gray-100 p-6 pt-20">

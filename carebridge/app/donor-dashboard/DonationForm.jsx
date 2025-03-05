@@ -1,38 +1,95 @@
-'use client';
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 
-const DonationForm = ({ setShowForm, addDonation }) => {
-  const [amount, setAmount] = useState("");
-  const [donorName, setDonorName] = useState(""); // Optional donor name
+const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations }) => {
+  const [amount, setAmount] = useState(donation ? donation.amount : "");
+  const [donorName, setDonorName] = useState(donation ? donation.donor_name : user?.name || "");
+  const [isAnonymous, setIsAnonymous] = useState(donation ? donation.donor_name === "Anonymous" : false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [selectedCharity, setSelectedCharity] = useState(donation ? { id: donation.charity_id, name: "" } : { id: "", name: "" });
+  const [selectedCategory, setSelectedCategory] = useState(donation ? { id: donation.category_id, name: "" } : { id: "", name: "" });
+  const [isRecurring, setIsRecurring] = useState(donation ? donation.is_recurring : false);
+  const [frequency, setFrequency] = useState(donation ? donation.frequency : "monthly");
+
+  // Function to calculate the next donation date based on frequency
+  const calculateNextDonationDate = (frequency) => {
+    const today = new Date();
+    switch (frequency) {
+      case "weekly":
+        return new Date(today.setDate(today.getDate() + 7)).toISOString().split("T")[0];
+      case "monthly":
+        return new Date(today.setMonth(today.getMonth() + 1)).toISOString().split("T")[0];
+      case "quarterly":
+        return new Date(today.setMonth(today.getMonth() + 3)).toISOString().split("T")[0];
+      case "yearly":
+        return new Date(today.setFullYear(today.getFullYear() + 1)).toISOString().split("T")[0];
+      default:
+        return null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!amount || isNaN(amount) || amount <= 0) return;
-    
-    setLoading(true);
     setError("");
+    setLoading(true);
+
+    let token = localStorage.getItem("access_token");
+    if (!token || token === "undefined") {
+      setError("Session expired. Please log in again.");
+      setLoading(false);
+      return;
+    }
+
+    if (!token.startsWith("Bearer ")) {
+      token = `Bearer ${token}`;
+    }
 
     const donationData = {
-      amount: parseFloat(amount),
-      donor_name: donorName || "Anonymous",
+      amount: parseFloat(amount) || 0,
+      charity_id: selectedCharity.id,
+      category_id: selectedCategory.id,
+      beneficiary_id: 1,
+      donation_type: "money",
+      status: "pending",
+      donor_name: isAnonymous ? "Anonymous" : donorName,
+      is_recurring: isRecurring,
+      frequency: isRecurring ? frequency : null, // Only include frequency if it's a recurring donation
+      next_donation_date: isRecurring ? calculateNextDonationDate(frequency) : null, // Calculate next donation date based on frequency
     };
 
     try {
-      const response = await fetch("http://localhost:5000/donate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const url = donation ? `http://localhost:5000/donations/${donation.id}` : "http://localhost:5000/donations";
+      const method = donation ? "PATCH" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(donationData),
       });
 
-      const result = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
-        addDonation(donationData); // Update dashboard
-        setShowForm(false); // Close form
+        alert(donation ? "🎉 Donation Updated Successfully!" : "🎉 Donation Successful!");
+        setAmount("");
+        setDonorName("");
+        setIsAnonymous(false);
+        setIsRecurring(false);
+        setFrequency("monthly");
+        setError("");
+        if (donation) {
+          fetchDonations(); // Refresh donations after update
+        } else {
+          addDonation(data.donation); // Add new donation to the list
+        }
+        setShowForm(false);
       } else {
-        setError(result.error || "Failed to process donation");
+        setError(data.msg || (donation ? "Failed to update donation." : "Failed to donate."));
       }
     } catch (err) {
       setError("Network error. Try again later.");
@@ -44,8 +101,11 @@ const DonationForm = ({ setShowForm, addDonation }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4 text-gray-700">Make a Donation</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-700">
+          {donation ? "Edit Donation" : "Make a Donation"}
+        </h2>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <label className="block mb-2 text-gray-700">Your Name (Optional)</label>
           <input
@@ -53,7 +113,43 @@ const DonationForm = ({ setShowForm, addDonation }) => {
             value={donorName}
             onChange={(e) => setDonorName(e.target.value)}
             className="w-full p-2 border rounded mb-4"
+            disabled={isAnonymous}
           />
+
+          <label className="block mb-2 text-gray-700">
+            <input
+              type="checkbox"
+              checked={isAnonymous}
+              onChange={(e) => setIsAnonymous(e.target.checked)}
+              className="mr-2"
+            />
+            Donate Anonymously
+          </label>
+
+          <label className="block mb-2 text-gray-700">Select Charity</label>
+          <select
+            value={selectedCharity.id}
+            onChange={(e) => setSelectedCharity({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text })}
+            className="w-full p-2 border rounded mb-4"
+          >
+            <option value="">Choose a Charity</option>
+            <option value="1">Charity A</option>
+            <option value="2">Charity B</option>
+          </select>
+
+          <label className="block mb-2 text-gray-700">Select Category</label>
+          <select
+            value={selectedCategory.id}
+            onChange={(e) => setSelectedCategory({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text })}
+            className="w-full p-2 border rounded mb-4"
+          >
+            <option value="">Choose a Category</option>
+            <option value="1">Education</option>
+            <option value="2">Health</option>
+            <option value="3">Food</option>
+            <option value="4">Clothing</option>
+          </select>
+
           <label className="block mb-2 text-gray-700">Donation Amount ($)</label>
           <input
             type="number"
@@ -63,22 +159,37 @@ const DonationForm = ({ setShowForm, addDonation }) => {
             min="1"
             required
           />
-          <div className="flex justify-between">
-            <button
-              type="button"
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
-              onClick={() => setShowForm(false)}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-              disabled={loading}
-            >
-              {loading ? "Processing..." : "Donate"}
-            </button>
-          </div>
+
+          <label className="block mb-2 text-gray-700">
+            <input
+              type="checkbox"
+              checked={isRecurring}
+              onChange={(e) => setIsRecurring(e.target.checked)}
+              className="mr-2"
+            />
+            Set up recurring donation
+          </label>
+
+          {/* Frequency Selection (only visible if recurring is checked) */}
+          {isRecurring && (
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700">Frequency</label>
+              <select
+                value={frequency}
+                onChange={(e) => setFrequency(e.target.value)}
+                className="w-full p-2 border rounded"
+              >
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          )}
+
+          <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded w-full" disabled={loading}>
+            {loading ? "Processing..." : (donation ? "Update Donation" : "Donate")}
+          </button>
         </form>
       </div>
     </div>
