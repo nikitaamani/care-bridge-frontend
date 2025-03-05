@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Progress } from "../components/ui/progress"; // Relative import
 import { Button } from "../components/ui/button";   // Relative import
 import { Share2, Plus, Heart, Users } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FundraisingPage() {
   const [raisedAmount, setRaisedAmount] = useState(7500);
@@ -12,8 +14,10 @@ export default function FundraisingPage() {
 
   // Function to handle fundraiser creation
   const handleStartFundraiser = () => {
-    alert("Redirecting to fundraiser creation page...");
-    window.location.href = "/create-fundraiser"; // Adjust this route if needed
+    toast.info("Redirecting to fundraiser creation page...");
+    setTimeout(() => {
+      window.location.href = "/create-fundraiser"; // Adjust this route if needed
+    }, 2000);
   };
 
   // Function to handle sharing challenge
@@ -24,13 +28,14 @@ export default function FundraisingPage() {
     if (navigator.share) {
       try {
         await navigator.share({ title: "CareBridge Challenge", text: shareText, url: shareUrl });
-        alert("Challenge shared successfully!");
+        toast.success("Challenge shared successfully!");
       } catch (error) {
         console.error("Error sharing:", error);
+        toast.error("Failed to share the challenge.");
       }
     } else {
       navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-      alert("Challenge link copied to clipboard!");
+      toast.info("Challenge link copied to clipboard!");
     }
   };
 
