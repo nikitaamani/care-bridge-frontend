@@ -1,10 +1,11 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import { FiHome, FiDollarSign, FiRepeat, FiHeart, FiCreditCard, FiBarChart, FiUser } from "react-icons/fi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import DonationForm from "./DonationForm";
-import ProfileSettings from "./ProfileSettings" 
+import ProfileSettings from "./ProfileSettings";
+import BeneficiaryStories from "./BeneficiaryStories"; // Import the BeneficiaryStories component
 
 const Sidebar = ({ setActiveSection }) => {
   return (
@@ -17,8 +18,8 @@ const Sidebar = ({ setActiveSection }) => {
           { icon: <FiRepeat />, label: "Recurring Donations" },
           { icon: <FiHeart />, label: "Saved Causes" },
           { icon: <FiCreditCard />, label: "Payment Methods" },
-          { icon: <FiBarChart />, label: "Impact Reports" },
-          { icon: <FiUser />, label: "Profile Settings" }
+          { icon: <FiBarChart />, label: "Impact Reports" }, // Link to Impact Reports
+          { icon: <FiUser />, label: "Profile Settings" },
         ].map(({ icon, label }) => (
           <li
             key={label}
@@ -54,7 +55,7 @@ const Dashboard = () => {
     try {
       const response = await fetch("http://localhost:5000/donations", {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -95,16 +96,16 @@ const Dashboard = () => {
     }
 
     try {
-      console.log(donationId)
+      console.log(donationId);
       const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
-      console.log(response) 
+      console.log(response);
 
       if (!response.ok) {
         const errorData = await response.text(); // Handle non-JSON responses
@@ -136,7 +137,7 @@ const Dashboard = () => {
   };
 
   // Filter recurring donations
-  const recurringDonations = donations.filter(donation => donation.frequency);
+  const recurringDonations = donations.filter((donation) => donation.frequency);
 
   return (
     <div className="flex">
@@ -290,6 +291,12 @@ const Dashboard = () => {
                 ))}
               </ul>
             )}
+          </div>
+        )}
+
+        {activeSection === "Impact Reports" && (
+          <div className="space-y-6">
+            <BeneficiaryStories /> {/* Render the BeneficiaryStories component */}
           </div>
         )}
 
