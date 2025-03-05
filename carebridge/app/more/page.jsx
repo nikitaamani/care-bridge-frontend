@@ -13,7 +13,7 @@ const LearnMore = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100">
+    <div className="w-full min-h-screen bg-gray-100 text-black">
       {/* Navbar */}
       <Navbar />
 
@@ -21,10 +21,10 @@ const LearnMore = () => {
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between px-6 py-16">
         {/* Text Content */}
         <div className="lg:w-1/2">
-          <h1 className="text-4xl font-bold text-blue-600 mb-4">
+          <h1 className="text-4xl font-bold text-black mb-4">
             Make Your Giving Simpler and More Impactful!
           </h1>
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-black mb-6">
             The Giving Basket allows you to support multiple charities in one easy checkout.
           </p>
           <Link
@@ -38,7 +38,7 @@ const LearnMore = () => {
         {/* Hero Image */}
         <div className="lg:w-1/2">
           <Image
-            src="https://images.pexels.com/photos/6646815/pexels-photo-6646815.jpeg?auto=compress&cs=tinysrgb&w=800"
+            src="/45.jpeg"
             alt="Giving Basket"
             width={600}
             height={400}
@@ -50,26 +50,26 @@ const LearnMore = () => {
 
       {/* How It Works */}
       <div className="container mx-auto px-6 py-12">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+        <h2 className="text-3xl font-bold text-center text-black mb-6">
           Here’s How It Works
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[{
             title: "1. Donate Easily",
             desc: "Click the 'Donate' button on any charity's profile to start.",
-            img: "https://images.pexels.com/photos/6646821/pexels-photo-6646821.jpeg?auto=compress&cs=tinysrgb&w=600"
+            img: "/pexelsc.jpg"
           }, {
             title: "2. Support Many Causes",
             desc: "Add multiple charities to your Giving Basket and check out at once.",
-            img: "https://images.pexels.com/photos/6646823/pexels-photo-6646823.jpeg?auto=compress&cs=tinysrgb&w=600"
+            img: "/pexels.jpg"
           }, {
             title: "3. Control Your Privacy",
             desc: "Choose how much personal information to share (or not share).",
-            img: "https://images.pexels.com/photos/6646824/pexels-photo-6646824.jpeg?auto=compress&cs=tinysrgb&w=600"
+            img: "/Safe.jpeg"
           }, {
             title: "4. Make It Personal",
             desc: "Donate in honor of a loved one, and send them a personalized notification.",
-            img: "https://images.pexels.com/photos/6646825/pexels-photo-6646825.jpeg?auto=compress&cs=tinysrgb&w=600"
+            img: "/donar.jpeg"
           }].map((step, index) => (
             <div key={index} className="bg-white shadow-lg p-6 rounded-lg text-center">
               <Image
@@ -80,8 +80,8 @@ const LearnMore = () => {
                 className="rounded-lg mx-auto mb-4"
                 unoptimized
               />
-              <h3 className="text-xl font-semibold">{step.title}</h3>
-              <p className="text-gray-600 mt-2">{step.desc}</p>
+              <h3 className="text-xl font-semibold text-black">{step.title}</h3>
+              <p className="text-black mt-2">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -89,26 +89,26 @@ const LearnMore = () => {
 
       {/* Additional Benefits Section */}
       <div className="container mx-auto px-6 py-12">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+        <h2 className="text-3xl font-bold text-center text-black mb-6">
           Additional benefits of using the Giving Basket
         </h2>
         <div className="max-w-2xl mx-auto">
           {["Donate as much (or as little) as you want", "Easily keep track of your donations", "More of your donation goes toward the cause", "Set up recurring donations"].map((title, index) => (
             <div key={index} className="border-b border-gray-300 py-3">
               <button
-                className="flex justify-between w-full text-lg font-semibold text-blue-600"
+                className="flex justify-between w-full text-lg font-semibold text-black"
                 onClick={() => toggleAccordion(index)}
               >
                 {title}
                 <span>{openIndex === index ? "−" : "+"}</span>
               </button>
               {openIndex === index && (
-                <p className="mt-2 text-gray-600">Detailed information about {title.toLowerCase()}.</p>
+                <p className="mt-2 text-black">Detailed information about {title.toLowerCase()}.</p>
               )}
             </div>
           ))}
         </div>
-        <p className="text-center mt-4 text-gray-700">
+        <p className="text-center mt-4 text-black">
           <strong>Questions?</strong> <Link href="/knowledgebase" className="text-blue-600 underline">Visit our knowledgebase</Link> for more information about the Giving Basket.
         </p>
       </div>
@@ -117,7 +117,7 @@ const LearnMore = () => {
       <div className="container mx-auto px-6 py-12 bg-gray-50 rounded-lg flex flex-col md:flex-row items-center">
         <div className="md:w-1/2">
           <Image
-            src="https://images.pexels.com/photos/6646815/pexels-photo-6646815.jpeg?auto=compress&cs=tinysrgb&w=800"
+            src="/Unity.jpeg"
             alt="Search for Charity"
             width={600}
             height={400}
@@ -126,8 +126,8 @@ const LearnMore = () => {
           />
         </div>
         <div className="md:w-1/2 text-center md:text-left px-6">
-          <h3 className="text-2xl font-bold text-blue-600 mb-3">Looking for a charity that aligns with your passions?</h3>
-          <p className="text-gray-700 mb-4">
+          <h3 className="text-2xl font-bold text-black mb-3">Looking for a charity that aligns with your passions?</h3>
+          <p className="text-black mb-4">
             Use the search bar in the navigation to enter keywords and browse by cause or to find a specific charity and view their rating and profile.
           </p>
           <Link
