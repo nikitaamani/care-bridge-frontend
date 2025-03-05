@@ -4,7 +4,7 @@ import { FiHome, FiDollarSign, FiRepeat, FiHeart, FiCreditCard, FiBarChart, FiUs
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import DonationForm from "./DonationForm";
-import ProfileSettings from "./ProfileSettings" // Import the ProfileSettingsPage component
+import ProfileSettings from "./ProfileSettings" 
 
 const Sidebar = ({ setActiveSection }) => {
   return (
@@ -104,7 +104,7 @@ const Dashboard = () => {
         },
       });
 
-      console.log(response) // Add debugging for
+      console.log(response) 
 
       if (!response.ok) {
         const errorData = await response.text(); // Handle non-JSON responses
@@ -134,6 +134,9 @@ const Dashboard = () => {
     // Fetch latest donations from backend
     await fetchDonations();
   };
+
+  // Filter recurring donations
+  const recurringDonations = donations.filter(donation => donation.frequency);
 
   return (
     <div className="flex">
@@ -220,6 +223,51 @@ const Dashboard = () => {
                     <p className="text-gray-700"><strong>Status:</strong> {donation.status || "Completed"}</p>
                     <p className="text-gray-700"><strong>Charity:</strong> {donation.charity_id || "N/A"}</p>
                     <p className="text-gray-700"><strong>Date:</strong> {donation.next_donation_date || "One-time donation"}</p>
+
+                    {/* Update and Delete Buttons (only for pending donations) */}
+                    {donation.status === "pending" && (
+                      <div className="mt-2">
+                        <button
+                          onClick={() => handleUpdateDonation(donation)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={() => handleDeleteDonation(donation.id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
+        {activeSection === "Recurring Donations" && (
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Recurring Donations</h2>
+            {recurringDonations.length === 0 ? (
+              <p className="text-gray-500">No recurring donations found.</p>
+            ) : (
+              <ul className="space-y-4">
+                {recurringDonations.map((donation) => (
+                  <li key={donation.id} className="border p-4 rounded-lg shadow-md">
+                    {/* Display Donor's Name if not anonymous */}
+                    {donation.anonymous ? (
+                      <p className="text-gray-500"><strong>Donor:</strong> Anonymous</p>
+                    ) : (
+                      <p className="text-gray-700"><strong>Donor:</strong> {donation.donor_name || "Unknown"}</p>
+                    )}
+                    <p className="text-gray-700"><strong>Amount:</strong> ${donation.amount}</p>
+                    <p className="text-gray-700"><strong>Status:</strong> {donation.status || "Active"}</p>
+                    <p className="text-gray-700"><strong>Charity:</strong> {donation.charity_id || "N/A"}</p>
+                    <p className="text-gray-700"><strong>Frequency:</strong> {donation.frequency}</p>
+                    <p className="text-gray-700"><strong>Next Donation Date:</strong> {donation.next_donation_date || "N/A"}</p>
 
                     {/* Update and Delete Buttons (only for pending donations) */}
                     {donation.status === "pending" && (

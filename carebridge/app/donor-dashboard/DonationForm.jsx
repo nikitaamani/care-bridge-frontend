@@ -13,6 +13,23 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
   const [isRecurring, setIsRecurring] = useState(donation ? donation.is_recurring : false);
   const [frequency, setFrequency] = useState(donation ? donation.frequency : "monthly");
 
+  // Function to calculate the next donation date based on frequency
+  const calculateNextDonationDate = (frequency) => {
+    const today = new Date();
+    switch (frequency) {
+      case "weekly":
+        return new Date(today.setDate(today.getDate() + 7)).toISOString().split("T")[0];
+      case "monthly":
+        return new Date(today.setMonth(today.getMonth() + 1)).toISOString().split("T")[0];
+      case "quarterly":
+        return new Date(today.setMonth(today.getMonth() + 3)).toISOString().split("T")[0];
+      case "yearly":
+        return new Date(today.setFullYear(today.getFullYear() + 1)).toISOString().split("T")[0];
+      default:
+        return null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -39,7 +56,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
       donor_name: isAnonymous ? "Anonymous" : donorName,
       is_recurring: isRecurring,
       frequency: isRecurring ? frequency : null, // Only include frequency if it's a recurring donation
-      next_donation_date: isRecurring ? new Date().toISOString().split("T")[0] : null, // Format as YYYY-MM-DD
+      next_donation_date: isRecurring ? calculateNextDonationDate(frequency) : null, // Calculate next donation date based on frequency
     };
 
     try {
