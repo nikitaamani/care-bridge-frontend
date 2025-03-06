@@ -38,34 +38,24 @@ const ImageSlider = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col lg:flex-row items-center justify-center text-center p-10 bg-gradient-to-r from-gray-100 to-gray-200">
-      
-      {/* Left Image Section */}
-      <div className="hidden lg:flex w-1/3 flex-col items-center">
+      {/* Left Image Section with Details */}
+      <div className="w-full lg:w-1/3 flex flex-col items-center text-center lg:text-left lg:items-start p-6">
         <Image 
           src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg"
-          alt="Support Our Mission"
-          width={500}
-          height={500}
-          className="rounded-xl shadow-2xl object-cover hover:scale-105 transition-transform duration-300"
+          alt="Making a Difference"
+          width={600}
+          height={600}
+          className="rounded-xl shadow-lg object-cover"
         />
-        <p className="mt-6 text-gray-700 text-lg font-semibold italic text-center max-w-sm">
-          Together, we can build a brighter future. Your support helps provide access to clean water, quality education, and essential resources for communities in need.
+        <h2 className="text-4xl font-bold text-gray-800 mt-6">Making a Difference</h2>
+        <p className="text-gray-600 text-lg leading-relaxed max-w-lg mt-4">
+          Our mission is to provide clean water, education, food, and hygiene solutions to those in need. 
+          Every initiative we take is a step towards a healthier and brighter future. Join us in making a meaningful impact.
         </p>
       </div>
-    
-      {/* Right Content Section */}
-      <div className="w-full lg:w-2/3 flex flex-col items-center">
-        
-        {/* Title & Intro */}
-        <div className="mb-8 max-w-3xl">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Making a Difference</h2>
-          <p className="text-gray-600 text-lg leading-relaxed">
-            Our mission is to provide clean water, education, food, and hygiene solutions to those in need. 
-            Every initiative we take is a step towards a healthier and brighter future. Join us in making a meaningful impact.
-          </p>
-        </div>
-
-        {/* Image Slider */}
+      
+      {/* Image Slider Section Below */}
+      <div className="w-full lg:w-2/3 p-6">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
@@ -74,11 +64,7 @@ const ImageSlider = () => {
           pagination={{ clickable: true }}
           autoplay={{ delay: 3500, disableOnInteraction: false }}
           loop={true}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            1024: { slidesPerView: 2 },
-          }}
-          className="w-full max-w-4xl rounded-lg shadow-xl overflow-hidden"
+          className="rounded-lg shadow-xl overflow-hidden"
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
@@ -86,8 +72,8 @@ const ImageSlider = () => {
                 <Image 
                   src={slide.image} 
                   alt={slide.title} 
-                  width={500} 
-                  height={350} 
+                  width={600} 
+                  height={400} 
                   className="w-full h-72 object-cover"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white p-6">
@@ -101,18 +87,6 @@ const ImageSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <h2 className="text-3xl font-semibold mb-4">Support Our Projects</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-6 text-lg leading-relaxed">
-            Your donation helps us provide clean water, education, food, and hygiene to those in need. 
-            Every contribution brings us one step closer to changing lives.
-          </p>
-          <Link href="/donate" className="px-8 py-3 bg-red-600 text-white rounded-lg text-lg hover:bg-orange-600 transition">
-            Donate Now
-          </Link>
-        </div>
       </div>
     </div>
   );

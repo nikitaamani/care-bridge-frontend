@@ -21,6 +21,8 @@ const Home = () => {
       <ImageSlider />
       <DonateWithGiving />
       <DonationPrompt />
+      
+      
       <Footer />
      
     </div>

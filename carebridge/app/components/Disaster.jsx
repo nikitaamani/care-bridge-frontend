@@ -1,119 +1,86 @@
-'use client';
-
-import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
-import L from 'leaflet';
-import Image from 'next/image';
-import Link from 'next/link';
-import 'leaflet/dist/leaflet.css';
-
-// Dynamically import react-leaflet components to avoid SSR issues
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+"use client";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function DisasterRecovery() {
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Fix Leaflet missing icons issue
-      delete L.Icon.Default.prototype._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: '/leaflet/marker-icon-2x.png',
-        iconUrl: '/leaflet/marker-icon.png',
-        shadowUrl: '/leaflet/marker-shadow.png',
-      });
-    }
-  }, []);
-
-  // Disaster locations
-  const disasterLocations = [
-    { name: 'Haiti', lat: 18.9712, lng: -72.2852, issue: 'Earthquake & Political Crisis' },
-    { name: 'Turkey', lat: 38.9637, lng: 35.2433, issue: 'Earthquake' },
-    { name: 'Sudan', lat: 12.8628, lng: 30.2176, issue: 'War & Humanitarian Crisis' },
-    { name: 'Congo', lat: -4.0383, lng: 21.7587, issue: 'Conflict & Displacement' },
-  ];
-
-  // Disaster Images with stories
-  const disasterImages = [
+  // Affected countries suffering from disasters
+  const affectedCountries = [
     {
-      src: 'https://images.pexels.com/photos/25228172/pexels-photo-25228172/free-photo-of-men-on-boat-on-water-in-village-during-flood.jpeg?auto=compress&cs=tinysrgb&w=600',
-      alt: 'Flooded area',
-      story: 'A village submerged in floodwaters, where families are stranded with no access to clean water or shelter...',
-      slug: 'flooded-village-crisis',
+      src: "https://images.pexels.com/photos/25228172/pexels-photo-25228172/free-photo-of-men-on-boat-on-water-in-village-during-flood.jpeg?auto=compress&cs=tinysrgb&w=600",
+      alt: "Flood in Bangladesh",
+      country: "Bangladesh",
+      crisis: "Severe flooding has displaced thousands, leaving communities without access to clean water and shelter."
     },
     {
-      src: 'https://images.pexels.com/photos/11477799/pexels-photo-11477799.jpeg?auto=compress&cs=tinysrgb&w=600',
-      alt: 'Destroyed buildings',
-      story: 'A once-thriving community now reduced to rubble, with families searching for safety and rebuilding their lives...',
-      slug: 'earthquake-destruction',
+      src: "https://images.pexels.com/photos/11477799/pexels-photo-11477799.jpeg?auto=compress&cs=tinysrgb&w=600",
+      alt: "Earthquake destruction in Turkey",
+      country: "Turkey",
+      crisis: "A devastating earthquake has reduced homes and infrastructure to rubble, requiring urgent humanitarian aid."
     },
     {
-      src: 'https://images.pexels.com/photos/10629468/pexels-photo-10629468.jpeg?auto=compress&cs=tinysrgb&w=600',
-      alt: 'Refugee camp',
-      story: 'A temporary camp housing thousands who have fled conflict and disaster, waiting for food, medical aid, and stability...',
-      slug: 'refugee-camp-struggles',
+      src: "https://images.pexels.com/photos/10629468/pexels-photo-10629468.jpeg?auto=compress&cs=tinysrgb&w=600",
+      alt: "Drought in Sudan",
+      country: "Sudan",
+      crisis: "A prolonged drought has left millions facing food and water shortages, worsening the humanitarian crisis."
     },
     {
-      src: 'https://images.pexels.com/photos/2898214/pexels-photo-2898214.jpeg?auto=compress&cs=tinysrgb&w=600',
-      alt: 'Emergency relief team',
-      story: 'A group of emergency responders working tirelessly to distribute food, medical care, and emotional support to survivors...',
-      slug: 'emergency-relief-efforts',
+      src: "https://images.pexels.com/photos/2898214/pexels-photo-2898214.jpeg?auto=compress&cs=tinysrgb&w=600",
+      alt: "War-torn region in Ukraine",
+      country: "Ukraine",
+      crisis: "Ongoing conflict has displaced millions, leading to a dire need for medical aid, food, and safe shelter."
     },
   ];
 
   return (
-    <div className="container mx-auto px-6 py-16">
-      {/* Header */}
-      <h2 className="text-4xl font-bold text-gray-900 text-center mb-10">Disaster Recovery</h2>
-
-      {/* Main Section */}
-      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
-        {/* Left: Text Section */}
-        <div className="lg:w-1/2">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">Supporting Communities in Crisis</h3>
-          <p className="text-gray-700 text-lg leading-relaxed mb-4">
-            <strong>Carebridge</strong> is dedicated to providing aid to communities affected by natural disasters, wars, and humanitarian crises worldwide.
-          </p>
-          <p className="text-gray-600 mb-4">
-            Your donations help deliver urgent relief, including <strong>clean water, food, medical assistance, and safe shelter</strong> to those in need.
-          </p>
-          <p className="text-gray-600">
-            Explore the map to see ongoing crisis areas and learn how your support can help <strong>rebuild lives</strong>.
-          </p>
+    <div className="min-h-screen bg-gray-100">
+      {/* Hero Section - Left Image, Right Content */}
+      <div className="container mx-auto px-6 py-16 flex flex-col md:flex-row items-center">
+        <div className="w-full md:w-1/2">
+          <Image 
+            src="https://images.pexels.com/photos/10629468/pexels-photo-10629468.jpeg?auto=compress&cs=tinysrgb&w=1200" 
+            alt="Disaster Recovery Hero" 
+            width={600} 
+            height={400} 
+            className="rounded-lg shadow-lg"
+          />
         </div>
-
-        {/* Right: Map Section */}
-        <div className="w-[600px] h-[600px] rounded-xl overflow-hidden shadow-2xl border border-gray-300">
-          <MapContainer center={[10, 20]} zoom={2} className="w-full h-full">
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {disasterLocations.map((location, index) => (
-              <Marker key={index} position={[location.lat, location.lng]}>
-                <Popup>
-                  <strong>{location.name}</strong>
-                  <br />
-                  {location.issue}
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+        <div className="w-full md:w-1/2 md:pl-10 text-center md:text-left mt-6 md:mt-0">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">Disaster Recovery</h1>
+          <p className="text-lg text-gray-700">
+            Providing aid and hope to communities affected by disasters. 
+            Join us in making a difference.
+          </p>
         </div>
       </div>
 
-      {/* Disaster Impact Section */}
-      <h3 className="text-3xl font-semibold text-gray-900 text-center mt-16 mb-8">Disaster Impact</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {disasterImages.map((img, index) => (
-          <div key={index} className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
-            <Image src={img.src} alt={img.alt} width={300} height={200} style={{ objectFit: "cover" }} className="w-full h-44" />
-            <div className="p-4 bg-white">
-              <p className="text-sm text-gray-700">{img.story}</p>
-              <Link href={`/stories/${img.slug}`} className="text-blue-600 font-semibold mt-2 block hover:underline">
-                Read More →
-              </Link>
+      {/* About Section */}
+      <div className="container mx-auto px-6 py-16">
+        <h2 className="text-4xl font-bold text-gray-900 text-center mb-8">Supporting Communities in Crisis</h2>
+        <p className="text-gray-700 text-lg leading-relaxed text-center max-w-3xl mx-auto">
+          <strong>Carebridge</strong> is committed to providing emergency relief 
+          in regions affected by <strong>natural disasters, conflicts, and humanitarian crises</strong>. 
+          Your support helps deliver clean water, food, medical assistance, and safe shelter.
+        </p>
+      </div>
+
+      {/* Affected Countries Section */}
+      <div className="bg-white py-16">
+        <h3 className="text-3xl font-semibold text-gray-900 text-center mb-10">Countries in Crisis</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 container mx-auto px-6">
+          {affectedCountries.map((country, index) => (
+            <div 
+              key={index} 
+              className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 ease-in-out bg-white">
+              <Image src={country.src} alt={country.alt} width={300} height={200} 
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h4 className="text-lg font-semibold text-gray-900">{country.country}</h4>
+                <p className="text-sm text-gray-700 mt-2">{country.crisis}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
