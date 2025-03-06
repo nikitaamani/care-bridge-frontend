@@ -21,7 +21,7 @@ export default function Layout({ children }) {
 
   // Handle logout
   const handleLogout = () => {
-    fetch("http://localhost:5000/logout", {
+    fetch("https://carebridge-backend-fys5.onrender.com/logout", {
       method: "POST",
       credentials: "include",
     })

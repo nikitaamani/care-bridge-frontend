@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await axios.post("http://localhost:5000/request-password-reset", values);
+      const response = await axios.post("https://carebridge-backend-fys5.onrender.com/request-password-reset", values);
       setSuccessMessage(response.data.message || "Check your email for reset instructions.");
       setErrorMessage("");
       resetForm();

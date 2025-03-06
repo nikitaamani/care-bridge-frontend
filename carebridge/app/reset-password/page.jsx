@@ -32,7 +32,7 @@ const ResetPassword = ({ params }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await axios.post(`http://localhost:5000/reset-password/${token}`, {
+      await axios.post(`https://carebridge-backend-fys5.onrender.com/reset-password/${token}`, {
         password: values.password,
       });
 

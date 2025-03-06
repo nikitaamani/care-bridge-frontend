@@ -22,7 +22,7 @@ const ProfileSettingsPage = ({ onClose }) => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/profile", {
+        const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -74,7 +74,7 @@ const ProfileSettingsPage = ({ onClose }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/profile", {
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

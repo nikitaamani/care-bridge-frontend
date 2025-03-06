@@ -44,7 +44,7 @@ const ManageDonations = ({ apiUrl = "" }) => {
     if (amount > balance) return alert("Insufficient funds!");
 
     try {
-      const { data } = await axios.post("http://127.0.0.1:5000/api/withdraw", {
+      const { data } = await axios.post("https://carebridge-backend-fys5.onrender.com/api/withdraw", {
         charity_id: charityId,
         amount: parseFloat(amount),
       });
