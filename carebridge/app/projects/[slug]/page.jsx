@@ -1,5 +1,5 @@
-'use client'
-import { notFound } from 'next/navigation';
+'use client';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
@@ -54,9 +54,11 @@ const projectData = {
   },
 };
 
-export default function ProjectPage({ params }) {
+export default function ProjectPage() {
+  const params = useParams();
   const router = useRouter();
 
+  // Ensure params is unwrapped properly
   if (!params?.slug || !projectData[params.slug]) {
     return notFound();
   }
@@ -76,7 +78,8 @@ export default function ProjectPage({ params }) {
 
       <Navbar />
 
-      <div className="max-w-4xl mx-auto p-6 animate-fadeIn">
+      <div className="max-w-4xl mx-auto p-14">
+        {/* Back Button */}
         <button 
           onClick={() => router.back()} 
           className="mb-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
@@ -84,25 +87,39 @@ export default function ProjectPage({ params }) {
           ← Back to Projects
         </button>
 
-        <h1 className="text-3xl font-bold">{title}</h1>
-        
-        <div className="relative w-full h-64 mt-4 rounded-lg overflow-hidden">
+        {/* Project Title */}
+        <h1 className="text-3xl font-bold text-gray-800">{title}</h1>
+
+        {/* Project Image */}
+        <div className="relative w-full h-96 mt-6 rounded-lg overflow-hidden shadow-lg">
           <Image 
             src={image} 
             alt={title} 
-            width={800} 
-            height={500} 
-            className="w-full h-auto rounded-lg"
+            fill
+            className="object-cover"
           />
         </div>
 
-        <div className="mt-4 text-lg">
-          <div dangerouslySetInnerHTML={{ __html: fullDescription.replace(/\n/g, "<br/>") }} />
+        {/* Project Description */}
+        <div className="mt-6 text-lg text-gray-700 space-y-4">
+          {fullDescription.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
 
-        <div className="mt-6 flex gap-4">
-          <a href="/volunteer" className="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition">
+        {/* Call to Action */}
+        <div className="mt-8 flex gap-4">
+          <a 
+            href="/volunteer" 
+            className="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition"
+          >
             Become a Volunteer
+          </a>
+          <a 
+            href="/donate" 
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Donate Now
           </a>
         </div>
       </div>
