@@ -18,8 +18,7 @@ function HealthCharities() {
       title: "Grace's New Beginning",
       description:
         "Grace, a 16-year-old from Kenya, was able to complete her education and secure a scholarship after receiving menstrual health support.",
-      image:
-        "33.jpeg",
+      image: "33.jpeg",
     },
     {
       id: 3,
@@ -52,7 +51,9 @@ function HealthCharities() {
           muted
           className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
         >
-          <source src="https://www.youtube.com/watch?v=-A-wzkVsF_k" type="video/mp4" />
+          {/* Replace this with your direct video file link */}
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
         <h1 className="text-4xl font-bold drop-shadow-md">
           Empowering Girls Through Health and Hygiene
