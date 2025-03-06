@@ -6,7 +6,7 @@ export default function TermsOfService() {
       <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg my-12">
         <h1 className="text-3xl font-bold text-center mb-6">Terms of Service</h1>
         <p className="text-gray-600 mb-8 text-center">
-          Last updated: [Insert Date]
+          Last updated: [02/03/2025]
         </p>
 
         <div className="space-y-6">

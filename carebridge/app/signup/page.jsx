@@ -40,11 +40,6 @@ const SignupPage = () => {
     console.log("Sending signup request:", values); // Debugging
   
     try {
-<<<<<<< HEAD
-      const response = await axios.post("http://localhost:5000/auth/register", values);
-      console.log("Signup Success:", response.data);
-      router.push("/login"); // Redirect to login after successful signup
-=======
       const response = await fetch("http://127.0.0.1:5000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,7 +61,6 @@ const SignupPage = () => {
   
       console.log("Signup successful!");
       router.push("/login");
->>>>>>> 715107261d73ec853c581737a45b14a87739f43f
     } catch (error) {
       console.error("Signup failed:", error.message);
       alert(`Signup failed: ${error.message}`);
