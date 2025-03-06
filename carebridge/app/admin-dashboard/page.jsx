@@ -28,12 +28,12 @@ export default function AdminPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const statsRes = await fetch("http://localhost:5000/api/stats");
+        const statsRes = await fetch("https://carebridge-backend-fys5.onrender.com/api/stats");
         if (!statsRes.ok) throw new Error("Failed to fetch stats");
         const statsData = await statsRes.json();
         setStats(statsData);
 
-        const donationRes = await fetch("http://localhost:5000/api/donation-data");
+        const donationRes = await fetch("https://carebridge-backend-fys5.onrender.com/api/donation-data");
         if (!donationRes.ok) throw new Error("Failed to fetch donation data");
         const donationData = await donationRes.json();
         setDonationData({
@@ -48,7 +48,7 @@ export default function AdminPage() {
           ],
         });
 
-        const activitiesRes = await fetch("http://localhost:5000/api/recent-activities");
+        const activitiesRes = await fetch("https://carebridge-backend-fys5.onrender.com/api/recent-activities");
         if (!activitiesRes.ok) throw new Error("Failed to fetch activities");
         const activitiesData = await activitiesRes.json();
         setActivities(activitiesData);

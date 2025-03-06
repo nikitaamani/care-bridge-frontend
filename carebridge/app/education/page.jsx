@@ -19,7 +19,7 @@ const EducationCharityImpact = () => {
         const donationData = { donationType: selectedDonation };
         
         try {
-            const response = await fetch("/api/donate", {
+            const response = await fetch("https://carebridge-backend-fys5.onrender.com/api/donate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(donationData),

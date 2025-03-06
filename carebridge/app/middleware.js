@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an Axios instance with a base URL
 const api = axios.create({
-  baseURL: "http://localhost:5000", // Your Flask backend URL
+  baseURL: "https://carebridge-backend-fys5.onrender.com/", // Your Flask backend URL
   withCredentials: true, // Include cookies in requests (if needed)
 });
 

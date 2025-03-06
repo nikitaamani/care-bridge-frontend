@@ -20,7 +20,7 @@ const SelectRole = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/auth/select-role", {
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/auth/select-role", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

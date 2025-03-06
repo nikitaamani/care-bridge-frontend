@@ -15,7 +15,7 @@ const Users = () => {
       return;
     }
 
-    fetch("http://localhost:5000/users", {
+    fetch("https://carebridge-backend-fys5.onrender.com/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const Users = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:5000/users/${id}`, {
+    fetch(`https://carebridge-backend-fys5.onrender.com/users/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

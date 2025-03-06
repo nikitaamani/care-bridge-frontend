@@ -11,7 +11,7 @@ const Statistics = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
   
-    fetch("http://localhost:5000/api/admin/donation-statistics", {
+    fetch("https://carebridge-backend-fys5.onrender.com/api/admin/donation-statistics", {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
