@@ -27,7 +27,7 @@ export default function Layout({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("https://my-json-server.typicode.com/typicode/demo/profile");
+        const res = await fetch("https://carebridge-backend-fys5.onrender.com/profile");
         const data = await res.json();
         setUser(data.name || "Kenyan");
       } catch (err) {

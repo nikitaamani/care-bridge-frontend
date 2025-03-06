@@ -60,7 +60,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
     };
 
     try {
-      const url = donation ? `http://localhost:5000/donations/${donation.id}` : "http://localhost:5000/donations";
+      const url = donation ? `https://carebridge-backend-fys5.onrender.com/donations/${donation.id}` : "https://carebridge-backend-fys5.onrender.com/donations";
       const method = donation ? "PATCH" : "POST";
 
       const response = await fetch(url, {

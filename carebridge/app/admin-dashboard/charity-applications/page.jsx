@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 
-const API_URL = "http://localhost:5000/api/admin";
+const API_URL = "https://carebridge-backend-fys5.onrender.com/api/admin";
 
 const CharityApplications = () => {
   const [applications, setApplications] = useState([]);

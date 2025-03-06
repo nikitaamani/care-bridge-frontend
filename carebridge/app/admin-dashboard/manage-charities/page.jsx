@@ -9,7 +9,7 @@ const ManageCharities = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
   
-    fetch("http://localhost:5000/charities", {
+    fetch("https://carebridge-backend-fys5.onrender.com/charities", {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,

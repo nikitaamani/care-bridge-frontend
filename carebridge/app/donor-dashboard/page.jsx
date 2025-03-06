@@ -53,7 +53,7 @@ const Dashboard = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/donations", {
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/donations", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     try {
       console.log(donationId);
-      const response = await fetch(`http://localhost:5000/donations/${donationId}`, {
+      const response = await fetch(`https://carebridge-backend-fys5.onrender.com/donations/${donationId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
