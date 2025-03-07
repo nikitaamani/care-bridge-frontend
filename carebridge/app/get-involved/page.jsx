@@ -68,7 +68,7 @@ const GetInvolved = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Navbar className="bg-black" />
 
       {/* Hero Section */}
@@ -79,53 +79,115 @@ const GetInvolved = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
-          <div className="w-full md:w-1/2 relative">
-            <Image src="https://images.pexels.com/photos/6565756/pexels-photo-6565756.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Volunteering" width={600} height={400} className="rounded-lg shadow-lg" />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white text-lg font-bold opacity-0 hover:opacity-100 transition duration-300 rounded-lg">
-              Join Us & Make a Difference
-            </div>
-          </div>
-
-          <div className="w-full md:w-1/2 text-center">
-            <h3 className="text-3xl font-semibold mb-4">Volunteer With Us</h3>
-            <p className="text-lg text-gray-600 mb-6">Be part of a movement that’s changing lives.</p>
-
-            <div className="flex justify-around text-xl font-bold mb-6">
-              <div>
-                <span className="text-blue-500">{count1}+</span>
-                <p className="text-sm text-gray-600">Volunteers</p>
-              </div>
-              <div>
-                <span className="text-green-500">{count2}+</span>
-                <p className="text-sm text-gray-600">Projects Completed</p>
-              </div>
-              <div>
-                <span className="text-red-500">{count3}+</span>
-                <p className="text-sm text-gray-600">Lives Impacted</p>
+      {/* Volunteer Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Image Section */}
+            <div className="relative rounded-lg overflow-hidden shadow-lg">
+              <Image
+                src="https://images.pexels.com/photos/6565756/pexels-photo-6565756.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Volunteering"
+                width={600}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white text-lg font-bold opacity-0 hover:opacity-100 transition duration-300">
+                Join Us & Make a Difference
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-left max-w-lg mx-auto">
-              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" required className="w-full px-4 py-2 border rounded-lg" />
-              <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" required className="w-full px-4 py-2 border rounded-lg" />
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" required className="w-full px-4 py-2 border rounded-lg" />
-              <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Why do you want to volunteer?" required className="w-full px-4 py-2 border rounded-lg" />
-              <button type="submit" disabled={isSubmitting} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition duration-300 w-full">
-                {isSubmitting ? "Submitting..." : "Become a Volunteer"}
-              </button>
-            </form>
+            {/* Content Section */}
+            <div className="space-y-8">
+              <h2 className="text-4xl font-bold text-gray-800">Volunteer With Us</h2>
+              <p className="text-lg text-gray-600">Be part of a movement that’s changing lives. Your time and skills can make a real impact.</p>
 
-            {successMessage && <div className="mt-4 p-3 bg-green-100 text-green-700 border border-green-400 rounded flex items-center"><FaCheckCircle className="mr-2" /> {successMessage}</div>}
-            {errorMessage && <div className="mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded flex items-center"><FaExclamationCircle className="mr-2" /> {errorMessage}</div>}
+              {/* Stats Section */}
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="p-4 bg-blue-50 rounded-lg">
+                  <span className="text-3xl font-bold text-blue-600">{count1}+</span>
+                  <p className="text-sm text-gray-600 mt-2">Volunteers</p>
+                </div>
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <span className="text-3xl font-bold text-green-600">{count2}+</span>
+                  <p className="text-sm text-gray-600 mt-2">Projects Completed</p>
+                </div>
+                <div className="p-4 bg-red-50 rounded-lg">
+                  <span className="text-3xl font-bold text-red-600">{count3}+</span>
+                  <p className="text-sm text-gray-600 mt-2">Lives Impacted</p>
+                </div>
+              </div>
 
-            <p className="mt-6 italic text-gray-700">"Volunteering here changed my life. I never knew I could make such an impact!" – Alex, Volunteer</p>
+              {/* Volunteer Form */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email Address"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Why do you want to volunteer?"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows={4}
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300"
+                >
+                  {isSubmitting ? "Submitting..." : "Become a Volunteer"}
+                </button>
+              </form>
 
-            <div className="mt-6 flex justify-center space-x-4">
-              <FaFacebook className="text-blue-600 text-2xl cursor-pointer" />
-              <FaTwitter className="text-blue-400 text-2xl cursor-pointer" />
-              <FaLinkedin className="text-blue-700 text-2xl cursor-pointer" />
+              {/* Success/Error Messages */}
+              {successMessage && (
+                <div className="mt-4 p-4 bg-green-100 text-green-700 border border-green-400 rounded-lg flex items-center">
+                  <FaCheckCircle className="mr-2" /> {successMessage}
+                </div>
+              )}
+              {errorMessage && (
+                <div className="mt-4 p-4 bg-red-100 text-red-700 border border-red-400 rounded-lg flex items-center">
+                  <FaExclamationCircle className="mr-2" /> {errorMessage}
+                </div>
+              )}
+
+              {/* Testimonial */}
+              <blockquote className="mt-6 italic text-gray-700">
+                "Volunteering here changed my life. I never knew I could make such an impact!" – Alex, Volunteer
+              </blockquote>
+
+              {/* Social Media Links */}
+              <div className="flex justify-center space-x-6">
+                <FaFacebook className="text-blue-600 text-2xl cursor-pointer hover:text-blue-700" />
+                <FaTwitter className="text-blue-400 text-2xl cursor-pointer hover:text-blue-500" />
+                <FaLinkedin className="text-blue-700 text-2xl cursor-pointer hover:text-blue-800" />
+              </div>
             </div>
           </div>
         </div>

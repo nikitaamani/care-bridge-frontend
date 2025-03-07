@@ -43,27 +43,30 @@ function HealthCharities() {
       {/* Navbar */}
       <Navbar />
 
-      {/* Hero Section with Video Background */}
-      <div className="relative w-full h-[80vh] flex flex-col justify-center items-center text-white text-center px-6">
-        <video
-          autoPlay
-          loop
-          muted
-          className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
-        >
-          {/* Replace this with your direct video file link */}
-          <source src="" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <h1 className="text-4xl font-bold drop-shadow-md">
-          Empowering Girls Through Health and Hygiene
-        </h1>
-        <p className="mt-3 text-lg max-w-2xl drop-shadow-md">
-          Millions of school-going girls in Sub-Saharan Africa struggle with access to sanitary pads, clean water, and hygienic toilets.
-        </p>
-        <button className="mt-5 px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-md hover:bg-gray-200 transition">
-          Help Center
-        </button>
+      {/* Hero Section */}
+      <div className="grid md:grid-cols-2 h-[80vh] items-center px-6">
+        {/* Left Side - Text Content */}
+        <div className="text-left">
+          <h1 className="text-4xl font-bold text-gray-900">
+            Empowering Girls Through Health and Hygiene
+          </h1>
+          <p className="mt-3 text-lg text-gray-700 max-w-lg">
+            Millions of school-going girls in Sub-Saharan Africa struggle with access 
+            to sanitary pads, clean water, and hygienic toilets.
+          </p>
+          <button className="mt-5 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+            Help Center
+          </button>
+        </div>
+
+        {/* Right Side - Image */}
+        <div className="hidden md:block">
+          <img
+            src="/pexels1.jpg"
+            alt="Girls in school"
+            className="w-full h-full object-cover rounded-lg shadow-lg"
+          />
+        </div>
       </div>
 
       {/* How Your Donation Helps */}

@@ -2,9 +2,11 @@
 import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useRouter } from "next/navigation";
 
 export default function Team() {
     const [scrolling, setScrolling] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -79,7 +81,10 @@ export default function Team() {
                     We envision a world where every child has equal opportunities for growth, development, and success, regardless of their circumstances.
                   </p>
       
-                  <button className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-800">
+                  <button 
+                    className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-800"
+                    onClick={() => router.push("/donate")}
+                  >
                     Support Our Vision
                   </button>
                 </div>
