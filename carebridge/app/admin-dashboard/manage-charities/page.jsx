@@ -34,7 +34,7 @@ const ManageCharities = () => {
 
   const deleteCharity = (id) => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:5000/api/admin/charities/${id}`, {
+    fetch(`https://carebridge-backend-fys5.onrender.com/api/admin/charities/${id}`, {
       method: 'DELETE',
       headers: {
         "Authorization": `Bearer ${token}`,
