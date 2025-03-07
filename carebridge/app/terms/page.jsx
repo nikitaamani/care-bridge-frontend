@@ -13,14 +13,14 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-xl font-semibold mb-2">1. Introduction</h2>
             <p className="text-gray-700">
-              Welcome to [Platform Name]! By accessing or using our platform, you agree to comply with and be bound by these Terms of Service. If you do not agree, please do not use our services.
+              Welcome to Carebridge! By accessing or using our platform, you agree to comply with and be bound by these Terms of Service. If you do not agree, please do not use our services.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-2">2. Eligibility</h2>
             <p className="text-gray-700">
-              You must be at least 18 years old to use our platform. By using [Platform Name], you represent that you meet this requirement.
+              You must be at least 18 years old to use our platform. By using Carebridge, you represent that you meet this requirement.
             </p>
           </section>
 
@@ -41,7 +41,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-xl font-semibold mb-2">5. Donations</h2>
             <p className="text-gray-700">
-              Donations made through [Platform Name] are non-refundable. A small processing fee may be deducted from each donation. Please review our donation policy for more details.
+              Donations made through Carebridge are non-refundable. A small processing fee may be deducted from each donation. Please review our donation policy for more details.
             </p>
           </section>
 
@@ -55,14 +55,14 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-xl font-semibold mb-2">7. Limitation of Liability</h2>
             <p className="text-gray-700">
-              [Platform Name] is not liable for any damages arising from the use of our platform. This includes, but is not limited to, direct, indirect, or consequential damages.
+              Carebridge is not liable for any damages arising from the use of our platform. This includes, but is not limited to, direct, indirect, or consequential damages.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-2">8. Governing Law</h2>
             <p className="text-gray-700">
-              These terms are governed by the laws of [Your Jurisdiction]. Any disputes will be resolved in the courts of [Your Jurisdiction].
+              These terms are governed by the laws of Donation. Any disputes will be resolved in the courts.
             </p>
           </section>
 

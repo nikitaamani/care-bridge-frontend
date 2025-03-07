@@ -12,27 +12,38 @@ export default function FundraisingPage() {
   const goalAmount = 10000;
   const progress = (raisedAmount / goalAmount) * 100;
 
+  // Function to handle fundraiser creation
   const handleStartFundraiser = () => {
     toast.info("Redirecting to fundraiser creation page...");
     setTimeout(() => {
-      window.location.href = "/create-fundraiser";
+      window.location.href = "/create-fundraiser"; 
     }, 2000);
   };
 
+  // Function to handle sharing challenge
   const handleShareChallenge = async () => {
-    const shareText = "Join the #CareBridgeChallenge! Donate $10 and tag 3 friends to do the same.";
+    const shareText = "Join the #CareBridgeChallenge! Donate $10 and tag 3 friends!";
     const shareUrl = window.location.href;
 
     if (navigator.share) {
       try {
-        await navigator.share({ title: "CareBridge Challenge", text: shareText, url: shareUrl });
+        await navigator.share({
+          title: "CareBridge Challenge",
+          text: shareText,
+          url: shareUrl,
+        });
         toast.success("Challenge shared successfully!");
       } catch (error) {
+        console.error("Error sharing:", error);
         toast.error("Failed to share the challenge.");
       }
     } else {
-      navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-      toast.info("Challenge link copied to clipboard!");
+      try {
+        await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+        toast.info("Challenge link copied to clipboard!");
+      } catch (error) {
+        toast.error("Failed to copy link.");
+      }
     }
   };
 
@@ -69,7 +80,10 @@ export default function FundraisingPage() {
             <Heart className="w-12 h-12 text-green-600" />
             <h2 className="text-2xl font-semibold text-green-800 mt-4">Start a Fundraiser</h2>
             <p className="text-gray-700 mt-2">Create a campaign and invite friends!</p>
-            <Button className="mt-4 bg-green-600 hover:bg-green-700 text-white" onClick={handleStartFundraiser}>
+            <Button
+              className="mt-4 bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+              onClick={handleStartFundraiser}
+            >
               <Plus className="w-5 h-5 mr-2" /> Start Now
             </Button>
           </div>
@@ -79,7 +93,10 @@ export default function FundraisingPage() {
             <Users className="w-12 h-12 text-purple-600" />
             <h2 className="text-2xl font-semibold text-purple-800 mt-4">#CareBridgeChallenge</h2>
             <p className="text-gray-700 mt-2">Donate $10 & tag 3 friends!</p>
-            <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white" onClick={handleShareChallenge}>
+            <Button
+              className="mt-4 bg-purple-600 hover:bg-purple-700 text-white cursor-pointer"
+              onClick={handleShareChallenge}
+            >
               <Share2 className="w-5 h-5 mr-2" /> Share Now
             </Button>
           </div>
