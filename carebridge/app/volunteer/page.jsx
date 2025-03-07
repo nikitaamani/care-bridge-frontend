@@ -11,15 +11,39 @@ const Volunteer = () => {
     phone: "",
     message: "",
   });
-  
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Thank you for signing up! We will reach out soon.");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setLoading(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/volunteer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccessMessage("Thank you for signing up! Check your email for confirmation.");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        setErrorMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("Network error. Please try again later.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -35,30 +59,12 @@ const Volunteer = () => {
         </p>
       </section>
       
-      {/* Why Volunteer Section */}
-      <section className="py-12 bg-gray-100 text-center">
-        <h2 className="text-3xl font-semibold mb-6">Why Become a Volunteer?</h2>
-        <p className="text-lg text-gray-600 mb-6">Volunteering with us allows you to contribute to a cause you care about while gaining valuable experiences.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <div className="p-6 bg-white rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold">Make a Difference</h3>
-            <p className="text-gray-600">Help provide essential aid and education to children in need.</p>
-          </div>
-          <div className="p-6 bg-white rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold">Meet Like-Minded People</h3>
-            <p className="text-gray-600">Connect with a community of passionate volunteers.</p>
-          </div>
-          <div className="p-6 bg-white rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold">Gain Experience</h3>
-            <p className="text-gray-600">Develop valuable skills while making a real impact.</p>
-          </div>
-        </div>
-      </section>
-
       {/* Volunteer Form Section */}
       <section className="py-12 bg-white text-center">
         <h2 className="text-3xl font-semibold mb-6">Sign Up to Volunteer</h2>
         <p className="text-lg text-gray-600 mb-6">Fill out the form below to join our volunteer team.</p>
+        {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
+        {errorMessage && <p className="text-red-600 mb-4">{errorMessage}</p>}
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-gray-100 p-8 rounded-lg shadow-lg">
           <div className="mb-4">
             <input 
@@ -105,8 +111,9 @@ const Volunteer = () => {
           </div>
           <button 
             type="submit" 
+            disabled={loading}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition duration-300">
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </section>
