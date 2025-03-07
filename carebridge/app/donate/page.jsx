@@ -5,12 +5,51 @@ import { FaPaypal, FaCreditCard } from 'react-icons/fa';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 const DonateNow = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulate login state
     const [amount, setAmount] = useState('');
+    const [error, setError] = useState('');
+
+    // Simulate login for testing
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+    };
+
+    // Handle PayPal payment creation
+    const createPayPalOrder = (data, actions) => {
+        if (!amount || amount <= 0) {
+            setError("Please enter a valid donation amount.");
+            return;
+        }
+        setError(""); // Clear any previous errors
+
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: amount, // Amount in USD
+                    currency_code: "USD"
+                },
+                description: "Donation to Charity"
+            }]
+        });
+    };
+
+    // Handle PayPal payment approval
+    const onPayPalApprove = (data, actions) => {
+        return actions.order.capture().then((details) => {
+            console.log("Payment Successful:", details);
+            alert(`🎉 Thank you for your donation of $${amount}!`);
+            setAmount(""); // Reset amount after successful donation
+        });
+    };
+
+    // Handle PayPal payment errors
+    const onPayPalError = (err) => {
+        console.error("Payment Error:", err);
+        setError("Payment failed. Please try again.");
+    };
 
     return (
-        <PayPalScriptProvider options={{ "client-id": "your-actual-client-id-here" }}>
-
+        <PayPalScriptProvider options={{ "client-id": "ATOm1GzlqyrHSwC2m5estbrSgAkmkOn_WREJj1WOCN5Ho2VmuyCJcXA9pQpuLVhXwMTgr379Q-g6dJDX" }}>
             <div className="max-w-3xl mx-auto p-6">
                 {/* Donation Guide */}
                 <div className="bg-blue-100 p-6 rounded-lg shadow-md mb-6">
@@ -30,6 +69,13 @@ const DonateNow = () => {
                         <div className="space-x-4">
                             <Link href="/signup" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Sign Up</Link>
                             <Link href="/login" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Log In</Link>
+                            {/* Simulate login for testing */}
+                            <button
+                                onClick={handleLogin}
+                                className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                            >
+                                Simulate Login (Test)
+                            </button>
                         </div>
                     </div>
                 ) : (
@@ -45,35 +91,22 @@ const DonateNow = () => {
                             min="0"
                             step="0.01"
                         />
+                        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                         <div className="flex space-x-4">
                             {/* PayPal Button */}
                             <PayPalButtons
-                                createOrder={(data, actions) => {
-                                    if (amount <= 0) {
-                                        alert("Please enter a valid donation amount.");
-                                        return;
-                                    }
-                                    return actions.order.create({
-                                        purchase_units: [{
-                                            amount: {
-                                                value: amount,
-                                            },
-                                        }],
-                                    });
-                                }}
-                                onApprove={(data, actions) => {
-                                    return actions.order.capture().then((details) => {
-                                        // Handle successful payment
-                                        console.log("Payment Successful", details);
-                                    });
-                                }}
-                                onError={(err) => {
-                                    console.log("Payment Error:", err);
-                                }}
+                                createOrder={createPayPalOrder}
+                                onApprove={onPayPalApprove}
+                                onError={onPayPalError}
+                                style={{ layout: 'vertical', color: 'blue', shape: 'rect', label: 'donate' }}
+                                disabled={!amount || amount <= 0}
                             />
 
-                            {/* Card Button */}
-                            <button className="px-4 py-2 bg-green-500 text-white rounded-md flex items-center space-x-2 hover:bg-green-600">
+                            {/* Card Button (Placeholder) */}
+                            <button
+                                className="px-4 py-2 bg-green-500 text-white rounded-md flex items-center space-x-2 hover:bg-green-600"
+                                onClick={() => alert("Card payment integration coming soon!")}
+                            >
                                 <FaCreditCard /> <span>Donate via Card</span>
                             </button>
                         </div>

@@ -16,8 +16,8 @@ const Sidebar = ({ setActiveSection }) => {
           { icon: <FiHome />, label: "Dashboard" },
           { icon: <FiDollarSign />, label: "Donation History" },
           { icon: <FiRepeat />, label: "Recurring Donations" },
-          { icon: <FiHeart />, label: "Saved Causes" },
-          { icon: <FiCreditCard />, label: "Payment Methods" },
+          // { icon: <FiHeart />, label: "Saved Causes" },
+          // { icon: <FiCreditCard />, label: "Payment Methods" },
           { icon: <FiBarChart />, label: "Impact Reports" }, // Link to Impact Reports
           { icon: <FiUser />, label: "Profile Settings" },
         ].map(({ icon, label }) => (
@@ -75,6 +75,37 @@ const Dashboard = () => {
   // Fetch donations when the component loads
   useEffect(() => {
     fetchDonations();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        console.error("No token found. User must be logged in.");
+        return;
+      }
+  
+      try {
+        const response = await fetch("http://localhost:5000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const data = await response.json();
+        if (response.ok) {
+          setUser(data);
+        } else {
+          console.error("Error fetching user data:", data.error);
+        }
+      } catch (err) {
+        console.error("Network error while fetching user data:", err);
+      }
+    };
+  
+    fetchUserData();
   }, []);
 
   // Function to handle donation update
