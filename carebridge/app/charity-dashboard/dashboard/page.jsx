@@ -24,7 +24,7 @@ const HomePage = () => {
 
   useEffect(() => {
     axios
-      .get("https://carebridge-backend-fys5.onrender.com/dashboard-stats") // Change if hosted
+      .get("http://127.0.0.1:5000/dashboard-stats") // Change if hosted
       .then((response) => {
         setStats(response.data);
         setLoading(false);

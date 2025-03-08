@@ -25,9 +25,9 @@ const HomePage = () => {
     // Simulating API call (Replace this with real fetch)
     setTimeout(() => {
       setStats({
-        totalDonations: 50000,
-        activeBeneficiaries: 120,
-        impactStories: 35,
+        totalDonations: 500,
+        activeBeneficiaries: 2,
+        impactStories: 2,
       });
     }, 1000);
   }, []);

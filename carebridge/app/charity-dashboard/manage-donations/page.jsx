@@ -25,7 +25,7 @@ const ManageDonations = ({ apiUrl = "" }) => {
     // Fetch charity balance
     const fetchBalance = async () => {
       try {
-        const response = await axios.get(`https://carebridge-backend-fys5.onrender.com/api/charity/${charityId}/balance`);
+        const response = await axios.get(`hhttp://127.0.0.1:5000/api/charity/${charityId}/balance`);
         setBalance(response.data.balance);
       } catch (error) {
         console.error("Error fetching balance:", error);
@@ -60,7 +60,7 @@ const ManageDonations = ({ apiUrl = "" }) => {
     if (amount > balance) return alert("Insufficient funds!");
 
     try {
-      const { data } = await axios.post("https://carebridge-backend-fys5.onrender.com/api/withdraw", {
+      const { data } = await axios.post("http://127.0.0.1:5000/api/withdraw", {
         charity_id: charityId,
         amount: parseFloat(amount),
       });

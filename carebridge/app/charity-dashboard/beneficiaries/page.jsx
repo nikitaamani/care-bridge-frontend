@@ -23,7 +23,7 @@ const Beneficiaries = () => {
   
     useEffect(() => {
       axios
-        .get("https://carebridge-backend-fys5.onrender.com//beneficiaries") // Change URL if hosted
+        .get("hhttp://127.0.0.1:5000/beneficiaries") // Change URL if hosted
         .then((response) => {
           setBeneficiaries(response.data);
           setLoading(false);

@@ -25,7 +25,7 @@ const ImpactStories = () => {
     try {
       // Send a POST request to the backend
       const response = await axios.post(
-        "https://carebridge-backend-fys5.onrender.com/stories",
+        "http://127.0.0.1:5000/stories",
         newStory,
         {
           headers: {
