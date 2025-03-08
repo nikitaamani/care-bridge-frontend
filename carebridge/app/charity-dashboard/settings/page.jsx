@@ -30,7 +30,7 @@ const Settings = () => {
     const fetchCharityData = async () => {
       try {
         const response = await axios.get(
-          "https://carebridge-backend-fys5.onrender.com/api/charity-settings",
+          "http://127.0.0.1:5000/api/charity-settings",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -61,20 +61,29 @@ const Settings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("https://carebridge-backend-fys5.onrender.com/charity-setting", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(charityInfo),
-      });
+    setError("");
 
-      if (response.ok) {
-        alert("Settings Updated Successfully!");
-      } else {
-        alert("Failed to update settings.");
-      }
-    } catch (error) {
-      console.error("Error updating settings:", error);
+    if (!accessToken) {
+      setError("Authentication error. Please log in again.");
+      return;
+    }
+
+    try {
+      await axios.patch(
+        "http://127.0.0.1:5000/api/charity-settings",
+        charityInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      alert("Settings Updated Successfully!");
+    } catch (err) {
+      setError("Failed to update settings. Please try again.");
+      console.error("Update error:", err);
     }
   };
 
