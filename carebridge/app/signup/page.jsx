@@ -39,7 +39,7 @@ const SignupPage = () => {
     console.log("Sending signup request:", values); // Debugging
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/register", {
+      const response = await axios.post("https://carebridge-backend-fys5.onrender.com/auth/register", {
         username: values.username,
         email: values.email,
         password: values.password,

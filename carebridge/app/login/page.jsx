@@ -33,7 +33,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post("http://localhost:5000/login", values, { withCredentials: true });
+      const response = await axios.post("https://carebridge-backend-fys5.onrender.com/login", values, { withCredentials: true });
 
       console.log("Login Success:", response.data);
       const token = response.data.access_token;
