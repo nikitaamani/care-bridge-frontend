@@ -19,10 +19,9 @@ const HowItWorks = () => {
                         <div className="relative h-48 w-full mb-6">
                             <Image
                                 src="https://images.pexels.com/photos/6646912/pexels-photo-6646912.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                alt="Choose a Charity"
-                                layout="fill"
-                                objectFit="cover"
-                                className="rounded-lg"
+                                alt="Example"
+                                fill
+                                style={{ objectFit: "cover" }}
                             />
                         </div>
                         <div className="text-blue-500 text-4xl mb-4">
@@ -38,9 +37,8 @@ const HowItWorks = () => {
                             <Image
                                 src="https://images.pexels.com/photos/4386347/pexels-photo-4386347.jpeg?auto=compress&cs=tinysrgb&w=600"
                                 alt="Pick an Amount"
-                                layout="fill"
-                                objectFit="cover"
-                                className="rounded-lg"
+                                fill
+                                style={{ objectFit: "cover" }}
                             />
                         </div>
                         <div className="text-green-500 text-4xl mb-4">
@@ -56,9 +54,8 @@ const HowItWorks = () => {
                             <Image
                                 src="https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=600"
                                 alt="Complete Payment"
-                                layout="fill"
-                                objectFit="cover"
-                                className="rounded-lg"
+                                fill
+                                style={{ objectFit: "cover" }}
                             />
                         </div>
                         <div className="text-yellow-500 text-4xl mb-4">
