@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import jwtDecode from "jwt-decode"; // Import jwt-decode to decode the JWT token
+import { jwtDecode } from "jwt-decode"; // Import jwt-decode to decode the JWT token
 
 const SelectRole = () => {
   const router = useRouter();
