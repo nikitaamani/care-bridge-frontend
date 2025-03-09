@@ -14,10 +14,10 @@ const charities = [
     impact: "Over 500,000 people have gained access to clean drinking water.",
     testimonials: [
       "Thanks to this initiative, our village now has clean water for the first time! - Amina, Kenya",
-      "An amazing organization that truly changes lives. - Mark, USA"
+      "An amazing organization that truly changes lives. - carebridge, save life today "
     ],
-    website: "https://cleanwater.org",
-    donationLink: "https://cleanwater.org/donate"
+    website: "https://care-bridge-deploy.vercel.app/",
+    donationLink: "https://care-bridge-deploy.vercel.app/"
   },
   { 
     id: 2, 
@@ -31,7 +31,7 @@ const charities = [
     impact: "Over 10,000 girls have received scholarships and mentorship.",
     testimonials: [
       "Education changed my life. This fund made it possible. - Fatima, Nigeria",
-      "Every girl deserves a chance, and this fund gives them that! - Sophia, Canada"
+      "Every girl deserves a chance, and this fund gives them that! - Nikita, Kenya"
     ],
     website: "https://girlseducationfund.org",
     donationLink: "https://girlseducationfund.org/donate"
@@ -48,7 +48,7 @@ const charities = [
     impact: "Over 2 million meals served worldwide.",
     testimonials: [
       "I no longer go to bed hungry thanks to this program. - Juan, Mexico",
-      "An essential lifeline for struggling families. - Emily, UK"
+      "An essential lifeline for struggling families. - Shadrack, Kenya"
     ],
     website: "https://foodforall.org",
     donationLink: "https://foodforall.org/donate"

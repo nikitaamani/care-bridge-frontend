@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { notFound } from 'next/navigation';
 
 // Sample disaster data (this would ideally come from an API or database)

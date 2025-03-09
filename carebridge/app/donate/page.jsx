@@ -80,7 +80,7 @@ const DonateNow = () => {
                     </div>
                 ) : (
                     /* Donation Form */
-                    <div className="bg-white p-6 rounded-lg shadow-md">
+                    (<div className="bg-white p-6 rounded-lg shadow-md">
                         <h3 className="text-2xl font-semibold text-gray-800 mb-4">Make a Donation</h3>
                         <input
                             type="number"
@@ -110,7 +110,7 @@ const DonateNow = () => {
                                 <FaCreditCard /> <span>Donate via Card</span>
                             </button>
                         </div>
-                    </div>
+                    </div>)
                 )}
             </div>
         </PayPalScriptProvider>

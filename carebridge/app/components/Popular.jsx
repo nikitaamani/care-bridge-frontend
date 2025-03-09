@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 const contributions = [
   {
@@ -9,7 +9,7 @@ const contributions = [
     description:
       'Providing immediate assistance, food, and shelter to communities affected by natural disasters.',
     icon: '🌍',
-    image: 'https://images.pexels.com/photos/6646912/pexels-photo-6646912.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: '/Unity.jpeg',
   },
   {
     title: 'Medical Assistance in Remote Areas',

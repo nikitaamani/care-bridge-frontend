@@ -1,6 +1,6 @@
 // components/HowItWorks.js
 import { FaHandHoldingHeart, FaDollarSign, FaCreditCard } from 'react-icons/fa';
-import Image from 'next/image';
+import Image from "next/image";
 
 const HowItWorks = () => {
     return (
@@ -16,12 +16,12 @@ const HowItWorks = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {/* Step 1: Choose a Charity */}
                     <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="relative h-48 w-full mb-6">
+                        <div className="relative w-full h-48 mb-6">
                             <Image
-                                src="https://images.pexels.com/photos/6646912/pexels-photo-6646912.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                src="/Charity.jpeg"
                                 alt="Example"
                                 fill
-                                style={{ objectFit: "cover" }}
+                                className="object-cover rounded-lg"
                             />
                         </div>
                         <div className="text-blue-500 text-4xl mb-4">
@@ -33,12 +33,12 @@ const HowItWorks = () => {
 
                     {/* Step 2: Pick an Amount */}
                     <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="relative h-48 w-full mb-6">
+                        <div className="relative w-full h-48 mb-6">
                             <Image
-                                src="https://images.pexels.com/photos/4386347/pexels-photo-4386347.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                src="/pexels.jpg"
                                 alt="Pick an Amount"
                                 fill
-                                style={{ objectFit: "cover" }}
+                                className="object-cover rounded-lg"
                             />
                         </div>
                         <div className="text-green-500 text-4xl mb-4">
@@ -50,12 +50,12 @@ const HowItWorks = () => {
 
                     {/* Step 3: Complete Payment */}
                     <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="relative h-48 w-full mb-6">
+                        <div className="relative w-full h-48 mb-6">
                             <Image
                                 src="https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=600"
                                 alt="Complete Payment"
                                 fill
-                                style={{ objectFit: "cover" }}
+                                className="object-cover rounded-lg"
                             />
                         </div>
                         <div className="text-yellow-500 text-4xl mb-4">

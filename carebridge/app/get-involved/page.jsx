@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { FaFacebook, FaTwitter, FaLinkedin, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";

@@ -1,6 +1,6 @@
 'use client';
 import { notFound, useParams } from 'next/navigation';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/app/components/Navbar';

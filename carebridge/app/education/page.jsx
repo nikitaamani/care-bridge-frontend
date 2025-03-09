@@ -2,7 +2,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { FaHandsHelping, FaChartBar, FaUsers, FaSchool, FaBookReader, FaDonate } from "react-icons/fa";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
