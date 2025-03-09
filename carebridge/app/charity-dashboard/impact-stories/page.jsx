@@ -19,7 +19,8 @@ export default function ImpactStories() {
   const fetchStories = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://127.0.0.1:5000/stories", {
+
+      const response = await axios.get("https://carebridge-backend-fys5.onrender.com/stories", {
         withCredentials: true,
       });
       setStories(response.data);
@@ -52,7 +53,8 @@ export default function ImpactStories() {
       if (editingStoryId) {
         // Update existing story
         await axios.put(
-          `http://127.0.0.1:5000/stories/${editingStoryId}`,
+
+          `https://carebridge-backend-fys5.onrender.com/stories/${editingStoryId}`,
           payload,
           {
             headers: {
@@ -64,7 +66,8 @@ export default function ImpactStories() {
         setEditingStoryId(null); // Reset editing state
       } else {
         // Create new story
-        await axios.post("http://127.0.0.1:5000/stories", payload, {
+
+        await axios.post("https://carebridge-backend-fys5.onrender.com/stories", payload, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -104,7 +107,8 @@ export default function ImpactStories() {
         return;
       }
 
-      await axios.delete(`http://127.0.0.1:5000/stories/${storyId}`, {
+
+      await axios.delete(`https://carebridge-backend-fys5.onrender.com/stories/${storyId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

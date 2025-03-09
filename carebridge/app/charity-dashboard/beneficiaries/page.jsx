@@ -21,7 +21,8 @@ export default function Beneficiaries() {
   const fetchCharities = async () => {
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-      const response = await fetch("http://127.0.0.1:5000/charities", {
+
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/charities", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +47,8 @@ export default function Beneficiaries() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-      const response = await fetch("http://127.0.0.1:5000/beneficiaries", {
+
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +82,8 @@ export default function Beneficiaries() {
       };
       console.log("Sending payload:", payload); // Debugging: Log the payload
 
-      const response = await fetch("http://127.0.0.1:5000/beneficiaries", {
+
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +110,8 @@ export default function Beneficiaries() {
   const handleEdit = async (beneficiaryId, updatedData) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://127.0.0.1:5000/beneficiaries/${beneficiaryId}`, {
+
+      const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +137,8 @@ export default function Beneficiaries() {
   const handleDelete = async (beneficiaryId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://127.0.0.1:5000/beneficiaries/${beneficiaryId}`, {
+
+      const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

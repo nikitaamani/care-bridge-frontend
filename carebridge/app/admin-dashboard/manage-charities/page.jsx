@@ -5,6 +5,7 @@ const ManageCharities = () => {
   const [charities, setCharities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,6 +34,7 @@ const ManageCharities = () => {
   }, []);
 
   const deleteCharity = (id) => {
+    setDeleting(true);
     const token = localStorage.getItem("token");
     fetch(`https://carebridge-backend-fys5.onrender.com/api/admin/charities/${id}`, {
       method: 'DELETE',
@@ -46,7 +48,11 @@ const ManageCharities = () => {
         }
         setCharities((prev) => prev.filter((charity) => charity.id !== id));
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => {
+        console.error("Delete charity error:", err);
+        setError(err.message);
+      })
+      .finally(() => setDeleting(false));
   };
 
   return (

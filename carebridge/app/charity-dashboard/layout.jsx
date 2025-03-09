@@ -15,7 +15,8 @@ export default function Layout({ children }) {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://127.0.0.1:5000/logout", { method: "POST", credentials: "include" });
+
+      await fetch("https://carebridge-backend-fys5.onrender.com/logout", { method: "POST", credentials: "include" });
       sessionStorage.removeItem("adminToken");
       router.push("/login");
     } catch (err) {

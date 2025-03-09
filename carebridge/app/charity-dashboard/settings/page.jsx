@@ -23,7 +23,8 @@ const ProfileSettingsPage = ({ onClose }) => {
       }
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/profile", {
+
+        const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -75,7 +76,8 @@ const ProfileSettingsPage = ({ onClose }) => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/profile", {
+
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -173,30 +175,6 @@ const ProfileSettingsPage = ({ onClose }) => {
             className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="Leave blank to keep current password"
           />
-        </div>
-
-        <div className="mb-4">
-          <label className="flex items-center text-gray-700">
-            <input
-              type="checkbox"
-              checked={isAnonymous}
-              onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="mr-2"
-            />
-            Donate Anonymously
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="flex items-center text-gray-700">
-            <input
-              type="checkbox"
-              checked={receiveReminders}
-              onChange={(e) => setReceiveReminders(e.target.checked)}
-              className="mr-2"
-            />
-            Receive Reminders
-          </label>
         </div>
 
         <div className="flex justify-between">

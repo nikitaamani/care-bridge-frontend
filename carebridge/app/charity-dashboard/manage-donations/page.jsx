@@ -15,7 +15,8 @@ export default function ManageDonations() {
 
   const fetchDonations = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/donations", {
+
+      const response = await axios.get("https://carebridge-backend-fys5.onrender.com/donations", {
         withCredentials: true,
       });
       setDonations(response.data);

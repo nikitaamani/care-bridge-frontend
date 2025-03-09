@@ -17,7 +17,8 @@ export default function Home() {
 
   const fetchDonations = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/donations", {
+
+      const response = await axios.get("https://carebridge-backend-fys5.onrender.com/donations", {
         withCredentials: true,
       });
       const donations = response.data;
@@ -38,7 +39,8 @@ export default function Home() {
 
   const fetchCharities = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/charities", {
+
+      const response = await axios.get("https://carebridge-backend-fys5.onrender.com/charities", {
         withCredentials: true,
       });
       setCharities(response.data);
@@ -58,7 +60,8 @@ export default function Home() {
       }
   
       const response = await axios.post(
-        "http://127.0.0.1:5000/charities/create",
+
+        "https://carebridge-backend-fys5.onrender.com/charities/create",
         newCharity,
         {
           headers: {
@@ -136,4 +139,6 @@ export default function Home() {
       </div>
     </div>
   );
+
 }
+
