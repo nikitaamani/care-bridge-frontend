@@ -46,11 +46,7 @@ const SignupPage = () => {
         confirmPassword: values.confirmPassword, // Ensure confirmPassword is sent
         role: values.role || "donor", // Default to "donor" if empty
       });
-<<<<<<< HEAD
 
-      console.log("Signup Success:", response.data);
-      router.push("/login"); // Redirect to login after successful signup
-=======
   
       let responseData;
       try {
@@ -64,7 +60,6 @@ const SignupPage = () => {
       if (!response.ok) throw new Error(responseData.error || "Signup failed");
       console.log("Signup successful!");
       router.push("/login");
->>>>>>> 4ac6313 (Add next-auth dependency; update API endpoints for production; enhance error handling in signup and charity management)
     } catch (error) {
       console.error("Signup failed:", error.response?.data || error.message);
       alert(`Signup failed: ${error.response?.data?.error || error.message}`);
