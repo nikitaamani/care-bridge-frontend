@@ -40,7 +40,7 @@ const LoginPage = () => {
 
       if (!token) throw new Error("Token missing from response");
 
-      localStorage.setItem("access_token", token);
+      localStorage.setItem("token", token);
       console.log("Token stored:", localStorage.getItem("token"));
 
       // Redirect based on user role
