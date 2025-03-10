@@ -16,7 +16,7 @@ const LoginPage = () => {
   
   // Check if user is already logged in
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (token) {
       router.push("/dashboard"); // Redirect to dashboard if logged in
     }
@@ -41,7 +41,7 @@ const LoginPage = () => {
       if (!token) throw new Error("Token missing from response");
 
       localStorage.setItem("access_token", token);
-      console.log("Token stored:", localStorage.getItem("access_token"));
+      console.log("Token stored:", localStorage.getItem("token"));
 
       // Redirect based on user role
       const role = response.data.role;
