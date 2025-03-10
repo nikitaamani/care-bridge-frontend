@@ -9,7 +9,7 @@ const Statistics = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
   
     fetch("https://carebridge-backend-fys5.onrender.com/api/admin/donation-statistics", {
       method: "GET",

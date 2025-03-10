@@ -13,7 +13,7 @@ const CharityApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       setLoading(true);
-      const token = localStorage.getItem("token"); // Get the stored JWT token
+      const token = localStorage.getItem("access_token"); // Get the stored JWT token
 
       try {
         const res = await fetch(`${API_URL}/charity-applications`, {
@@ -45,7 +45,7 @@ const CharityApplications = () => {
 
   const handleAction = async (id, status) => {
     setActionLoading(id);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
 
     try {
       const res = await fetch(`${API_URL}/charity-applications/${id}`, {

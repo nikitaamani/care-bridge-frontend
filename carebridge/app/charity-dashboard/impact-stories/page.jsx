@@ -37,7 +37,7 @@ export default function ImpactStories() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
 
       if (!token) {
         alert("You must be logged in to create a story.");
@@ -100,7 +100,7 @@ export default function ImpactStories() {
 
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
 
       if (!token) {
         alert("You must be logged in to delete a story.");

@@ -7,7 +7,7 @@ const Users = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
 
     if (!token) {
       setError("No authentication token found.");
@@ -41,7 +41,7 @@ const Users = () => {
   }, []);
 
   const deleteUser = (id) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
 
     if (!token) {
       console.error("No authentication token found.");

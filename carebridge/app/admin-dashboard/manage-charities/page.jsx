@@ -8,7 +8,7 @@ const ManageCharities = () => {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
   
     fetch("https://carebridge-backend-fys5.onrender.com/charities", {
       method: "GET",
@@ -35,7 +35,7 @@ const ManageCharities = () => {
 
   const deleteCharity = (id) => {
     setDeleting(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     fetch(`https://carebridge-backend-fys5.onrender.com/api/admin/charities/${id}`, {
       method: 'DELETE',
       headers: {

@@ -75,7 +75,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
 
     setError("");
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token || token === "undefined") {
       setError("Session expired. Please log in again.");
       return;
@@ -116,11 +116,11 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const orderID = urlParams.get("token");
+    const orderID = urlParams.get("accesss_token");
 
     if (orderID) {
       const capturePayment = async () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("access_token");
         if (!token || token === "undefined") {
           setError("Session expired. Please log in again.");
           return;

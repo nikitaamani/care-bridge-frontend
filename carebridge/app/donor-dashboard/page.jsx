@@ -80,7 +80,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       if (!token) {
         console.error("No token found. User must be logged in.");
         return;
@@ -116,7 +116,7 @@ const Dashboard = () => {
 
   // Function to handle donation deletion
   const handleDeleteDonation = async (donationId) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No token found. User must be logged in.");
       return;

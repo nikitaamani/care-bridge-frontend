@@ -20,7 +20,7 @@ export default function Beneficiaries() {
 
   const fetchCharities = async () => {
     try {
-      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
 
       const response = await fetch("https://carebridge-backend-fys5.onrender.com/charities", {
         method: "GET",
@@ -46,7 +46,7 @@ export default function Beneficiaries() {
   const fetchBeneficiaries = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
 
       const response = await fetch("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
         method: "GET",
@@ -74,7 +74,7 @@ export default function Beneficiaries() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
       const payload = {
         charity_id: charityId, // Include charity_id in the payload
         name,
@@ -109,7 +109,7 @@ export default function Beneficiaries() {
 
   const handleEdit = async (beneficiaryId, updatedData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
 
       const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "PUT",
@@ -136,7 +136,7 @@ export default function Beneficiaries() {
 
   const handleDelete = async (beneficiaryId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
 
       const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "DELETE",
