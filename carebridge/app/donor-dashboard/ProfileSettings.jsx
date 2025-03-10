@@ -15,7 +15,7 @@ const ProfileSettingsPage = ({ onClose }) => {
   // Fetch current profile data (including profile picture)
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       if (!token) {
         setError("Session expired. Please log in again.");
         return;
@@ -52,7 +52,7 @@ const ProfileSettingsPage = ({ onClose }) => {
     setError("");
     setLoading(true);
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token) {
       setError("Session expired. Please log in again.");
       setLoading(false);
@@ -110,7 +110,7 @@ const ProfileSettingsPage = ({ onClose }) => {
 
   // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove the token
+    localStorage.removeItem("access_token"); // Remove the token
     router.push("/login"); // Redirect to the login page
   };
 
