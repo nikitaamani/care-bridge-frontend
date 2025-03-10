@@ -37,7 +37,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     console.log("Sending signup request:", values); // Debugging
-
+  
     try {
       const response = await axios.post("https://carebridge-backend-fys5.onrender.com/auth/register", {
         username: values.username,
@@ -46,18 +46,10 @@ const SignupPage = () => {
         confirmPassword: values.confirmPassword, // Ensure confirmPassword is sent
         role: values.role || "donor", // Default to "donor" if empty
       });
-
   
-      let responseData;
-      try {
-        responseData = await response.json();
-      } catch (error) {
-        console.error("Failed to parse JSON response:", error);
-        throw new Error("Internal server error");
-      }
+      let responseData = response.data; // Axios automatically parses JSON
   
       console.log("Response from backend:", responseData);
-      if (!response.ok) throw new Error(responseData.error || "Signup failed");
       console.log("Signup successful!");
       router.push("/login");
     } catch (error) {
@@ -65,9 +57,10 @@ const SignupPage = () => {
       console.error("Full error response:", error.response); // Log the full error response
       alert(`Signup failed: ${error.response?.data?.error || error.message}`);
     }
-
+  
     setSubmitting(false);
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
