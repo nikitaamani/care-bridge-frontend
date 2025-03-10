@@ -62,6 +62,7 @@ const SignupPage = () => {
       router.push("/login");
     } catch (error) {
       console.error("Signup failed:", error.response?.data || error.message);
+      console.error("Full error response:", error.response); // Log the full error response
       alert(`Signup failed: ${error.response?.data?.error || error.message}`);
     }
 
