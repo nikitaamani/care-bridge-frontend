@@ -116,7 +116,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const orderID = urlParams.get("accesss_token");
+    const orderID = urlParams.get("access_token");
 
     if (orderID) {
       const capturePayment = async () => {

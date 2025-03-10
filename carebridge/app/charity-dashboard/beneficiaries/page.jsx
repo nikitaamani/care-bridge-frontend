@@ -2,70 +2,59 @@
 
 import React, { useEffect, useState } from "react";
 
+const fetchWithAuth = async (url, options = {}) => {
+  const token = localStorage.getItem("access_token");
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export default function Beneficiaries() {
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [name, setName] = useState("");
   const [needs, setNeeds] = useState("");
-  const [charityId, setCharityId] = useState(null); // Selected charity ID
-  const [charities, setCharities] = useState([]); // List of available charities
-  const [searchQuery, setSearchQuery] = useState(""); // Search query for filtering
-  const [loading, setLoading] = useState(false); // Loading state
-  const [message, setMessage] = useState(""); // Success/error messages
-  const [editingBeneficiary, setEditingBeneficiary] = useState(null); // Currently editing beneficiary
+  const [charityId, setCharityId] = useState(null);
+  const [charities, setCharities] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [editingBeneficiary, setEditingBeneficiary] = useState(null);
 
   useEffect(() => {
-    fetchCharities(); // Fetch available charities
-    fetchBeneficiaries(); // Fetch beneficiaries
+    fetchCharities();
+    fetchBeneficiaries();
   }, []);
 
   const fetchCharities = async () => {
     try {
-      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
-
-      const response = await fetch("https://carebridge-backend-fys5.onrender.com/charities", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token in the headers
-        },
-        credentials: "include", // Include cookies if using cookie-based authentication
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched charities:", data); // Debugging: Log the fetched data
-      setCharities(data); // Set the list of charities
+      const data = await fetchWithAuth("https://carebridge-backend-fys5.onrender.com/charities");
+      setCharities(data);
     } catch (error) {
       console.error("Error fetching charities:", error);
+      setMessage("Failed to fetch charities");
     }
   };
 
   const fetchBeneficiaries = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
-
-      const response = await fetch("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token in the headers
-        },
-        credentials: "include", // Include cookies if using cookie-based authentication
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched beneficiaries:", data); // Log the response
+      const data = await fetchWithAuth("https://carebridge-backend-fys5.onrender.com/beneficiaries");
       setBeneficiaries(data);
     } catch (error) {
       console.error("Error fetching beneficiaries:", error);
+      setMessage("Failed to fetch beneficiaries");
     } finally {
       setLoading(false);
     }
@@ -74,92 +63,52 @@ export default function Beneficiaries() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("access_token"); // Retrieve the token from localStorage
-      const payload = {
-        charity_id: charityId, // Include charity_id in the payload
-        name,
-        needs,
-      };
-      console.log("Sending payload:", payload); // Debugging: Log the payload
-
-
-      const response = await fetch("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
+      const payload = { charity_id: charityId, name, needs };
+      await fetchWithAuth("https://carebridge-backend-fys5.onrender.com/beneficiaries", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token in the headers
-        },
-        credentials: "include", // Include cookies if using cookie-based authentication
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       setMessage("Beneficiary added successfully");
-      fetchBeneficiaries(); // Refresh the list of beneficiaries
+      fetchBeneficiaries();
       setName("");
       setNeeds("");
     } catch (error) {
-      setMessage("Error adding beneficiary");
       console.error("Error adding beneficiary:", error);
+      setMessage("Error adding beneficiary");
     }
   };
 
   const handleEdit = async (beneficiaryId, updatedData) => {
     try {
-      const token = localStorage.getItem("access_token");
-
-      const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
+      await fetchWithAuth(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
         body: JSON.stringify(updatedData),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       setMessage("Beneficiary updated successfully");
-      fetchBeneficiaries(); // Refresh the list
-      setEditingBeneficiary(null); // Reset editing state
+      fetchBeneficiaries();
+      setEditingBeneficiary(null);
     } catch (error) {
-      setMessage("Error updating beneficiary");
       console.error("Error updating beneficiary:", error);
+      setMessage("Error updating beneficiary");
     }
   };
 
   const handleDelete = async (beneficiaryId) => {
     try {
-      const token = localStorage.getItem("access_token");
-
-      const response = await fetch(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
+      await fetchWithAuth(`https://carebridge-backend-fys5.onrender.com/beneficiaries/${beneficiaryId}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       setMessage("Beneficiary deleted successfully");
-      fetchBeneficiaries(); // Refresh the list
+      fetchBeneficiaries();
     } catch (error) {
-      setMessage("Error deleting beneficiary");
       console.error("Error deleting beneficiary:", error);
+      setMessage("Error deleting beneficiary");
     }
   };
 
-  // Filter beneficiaries based on search query
   const filteredBeneficiaries = beneficiaries.filter(
     (beneficiary) =>
       beneficiary.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -170,9 +119,7 @@ export default function Beneficiaries() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Beneficiaries</h1>
 
-      {/* Add Beneficiary Form */}
       <form onSubmit={handleSubmit} className="mb-6">
-        {/* Charity Select Dropdown */}
         <div className="mb-4">
           <label htmlFor="charity" className="block text-sm font-medium text-gray-700">
             Select Charity
@@ -213,7 +160,6 @@ export default function Beneficiaries() {
         </button>
       </form>
 
-      {/* Search Bar */}
       <input
         type="text"
         placeholder="Search beneficiaries..."
@@ -222,10 +168,8 @@ export default function Beneficiaries() {
         className="w-full p-2 mb-4 border rounded"
       />
 
-      {/* Display Messages */}
       {message && <p className="text-green-500 mb-4">{message}</p>}
 
-      {/* Display List of Beneficiaries */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold">List of Beneficiaries</h2>
         {loading ? (
@@ -257,7 +201,6 @@ export default function Beneficiaries() {
         )}
       </div>
 
-      {/* Edit Beneficiary Modal */}
       {editingBeneficiary && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md w-96">

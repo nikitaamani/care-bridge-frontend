@@ -46,7 +46,7 @@ const Dashboard = () => {
 
   // Fetch donations from backend
   const fetchDonations = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No token found. User must be logged in.");
       return;

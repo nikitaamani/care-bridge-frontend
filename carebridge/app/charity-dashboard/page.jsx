@@ -52,7 +52,7 @@ export default function Home() {
   const handleCreateCharity = async () => {
     try {
       // Retrieve the JWT token from local storage or cookies
-      const token = localStorage.getItem("token"); // Adjust this based on where you store the token
+      const token = localStorage.getItem("access_token"); // Adjust this based on where you store the token
   
       if (!token) {
         alert("You must be logged in to create a charity.");
