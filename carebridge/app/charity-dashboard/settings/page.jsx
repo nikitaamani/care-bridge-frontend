@@ -1,120 +1,202 @@
-"use client"; // Ensure this is a Client Component
+"use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 
-const Settings = () => {
-  const [charityInfo, setCharityInfo] = useState({
-    name: "",
-    description: "",
-    email: "",
-    logo: "",
-    password: "",
-  });
-
-  const [loading, setLoading] = useState(true);
+const ProfileSettingsPage = ({ onClose }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [receiveReminders, setReceiveReminders] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [accessToken, setAccessToken] = useState(null); // Store token separately
+  const [profilePicture, setProfilePicture] = useState(null); // State for profile picture
+  const router = useRouter(); // Initialize useRouter
 
-  // Ensure localStorage is accessed only on the client
+  // Fetch current profile data (including profile picture)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access_token");
-      setAccessToken(token);
-    }
-  }, []);
+    const fetchProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("Session expired. Please log in again.");
+        return;
+      }
 
-  // Fetch charity data once accessToken is available
-  useEffect(() => {
-    if (!accessToken) return; // Prevent API call if token is not available
-
-    const fetchCharityData = async () => {
       try {
-        const response = await axios.get(
-          "http://127.0.0.1:5000/api/charity-settings",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        setCharityInfo(response.data);
+
+        const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setUsername(data.username);
+          setEmail(data.email);
+          setIsAnonymous(data.is_anonymous || false);
+          setReceiveReminders(data.receive_reminders || false);
+          setProfilePicture(data.profile_picture || null); // Set profile picture from backend
+        } else {
+          setError(data.error || "Failed to fetch profile data");
+        }
       } catch (err) {
-        setError("Failed to load settings. Please try again.");
-        console.error("Fetch error:", err);
-      } finally {
-        setLoading(false);
+        setError("Network error. Try again later.");
       }
     };
 
-    fetchCharityData();
-  }, [accessToken]); // Runs only when accessToken is set
+    fetchProfile();
+  }, []);
 
-  // Handle input change
-  const handleChange = (e) => {
-    setCharityInfo({ ...charityInfo, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setCharityInfo({ ...charityInfo, logo: URL.createObjectURL(file) });
-  };
-
+  // Handle profile update (including profile picture)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    if (!accessToken) {
-      setError("Authentication error. Please log in again.");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Session expired. Please log in again.");
+      setLoading(false);
       return;
     }
 
-    try {
-      await axios.patch(
-        "http://127.0.0.1:5000/api/charity-settings",
-        charityInfo,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+    // Prepare profile data
+    const profileData = {
+      username,
+      email,
+      is_anonymous: isAnonymous,
+      receive_reminders: receiveReminders,
+      profile_picture: profilePicture, // Include profile picture in the update
+    };
 
-      alert("Settings Updated Successfully!");
+    // Only include password if it's not empty
+    if (password) {
+      profileData.password = password;
+    }
+
+    try {
+
+      const response = await fetch("https://carebridge-backend-fys5.onrender.com/profile", {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Profile updated successfully!");
+      } else {
+        setError(data.error || "Failed to update profile");
+      }
     } catch (err) {
-      setError("Failed to update settings. Please try again.");
-      console.error("Update error:", err);
+      setError("Network error. Try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Handle profile picture upload
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result); // Set the base64 encoded image
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token
+    router.push("/login"); // Redirect to the login page
+  };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100 w-full">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Settings</h1>
+    <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-center">Profile Settings</h2>
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-      <div className="p-4 shadow-lg bg-white w-full max-w-2xl mx-auto rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">Profile Settings</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input type="text" name="name" value={charityInfo.name} onChange={handleChange} placeholder="Charity Name" className="p-2 border rounded-md" />
-          <input type="email" name="email" value={charityInfo.email} onChange={handleChange} placeholder="Email Address" className="p-2 border rounded-md" />
-          <textarea name="description" value={charityInfo.description} onChange={handleChange} placeholder="Charity Description" className="p-2 border rounded-md" />
-          <input type="password" name="password" value={charityInfo.password} onChange={handleChange} placeholder="New Password" className="p-2 border rounded-md" />
-          <input type="file" name="logo" accept="image/*" onChange={handleFileChange} className="p-2 border rounded-md" />
-          {charityInfo.logo && <img src={charityInfo.logo} alt="Charity Logo" className="w-20 h-20 object-cover rounded-md" />}
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Changes</button>
-        </form>
+      {/* Profile Picture Section */}
+      <div className="mb-6 flex flex-col items-center">
+        <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
+          {profilePicture ? (
+            <img
+              src={profilePicture}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+              No Image
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleProfilePictureChange}
+          className="text-sm text-gray-700"
+        />
       </div>
 
-      <div className="p-4 shadow-lg bg-white w-full max-w-2xl mx-auto mt-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4 text-red-600">Danger Zone</h2>
-        <button className="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600" onClick={() => confirm("Are you sure you want to delete your account?") && alert("Account Deleted!")}>
-          Delete Account
-        </button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            placeholder="Leave blank to keep current password"
+          />
+        </div>
+
+        <div className="flex justify-between">
+          <button
+            type="submit"
+            className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update Profile"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Logout
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
 
-export default Settings;
+export default ProfileSettingsPage;

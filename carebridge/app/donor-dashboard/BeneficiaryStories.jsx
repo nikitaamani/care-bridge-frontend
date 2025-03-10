@@ -44,13 +44,16 @@ const BeneficiaryStories = () => {
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Beneficiary Stories</h2>
 
-      {/* Display Stories */}
-      <div className="space-y-6">
+      {/* Display Stories in a Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {stories.length === 0 ? (
           <p>No stories found.</p>
         ) : (
           stories.map((story) => (
-            <div key={story.id} className="border p-4 rounded-lg">
+            <div
+              key={story.id}
+              className="border p-4 rounded-lg hover:shadow-lg transition-shadow duration-300"
+            >
               {story.image_url && (
                 <img
                   src={story.image_url}

@@ -68,7 +68,7 @@ export default function AdminPage() {
           Manage charities, track donations, and oversee user activities.
         </p>
         <button className="mt-4 bg-[#F55920] hover:bg-[#e64b1a] text-white px-4 py-2 rounded flex items-center">
-          Get Started
+          Welcome
           <RiArrowRightSLine className="ml-2" />
         </button>
       </div>
