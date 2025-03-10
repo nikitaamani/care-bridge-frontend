@@ -1,21 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const DashboardPage = () => {
+const DashboardContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token") || localStorage.getItem("token");
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    if (!token) {
-      router.push("/login");
+    const storedToken = localStorage.getItem("token");
+    const urlToken = searchParams.get("token");
+
+    if (urlToken) {
+      localStorage.setItem("token", urlToken);
+      setToken(urlToken);
+    } else if (storedToken) {
+      setToken(storedToken);
     } else {
-      localStorage.setItem("token", token);
-      console.log("Token stored:", token);
+      router.push("/login");
     }
-  }, [token, router]);
+  }, [router, searchParams]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -26,8 +31,12 @@ const DashboardPage = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
         Welcome to the Dashboard!
-        <p>This is a test web page to show that google authentication works,<br></br> The site is still under construction</p>
       </h1>
+      <p className="text-center text-gray-600">
+        This is a test web page to show that Google authentication works.
+        <br />
+        The site is still under construction.
+      </p>
       <button
         onClick={handleLogout}
         className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -35,6 +44,14 @@ const DashboardPage = () => {
         Logout
       </button>
     </div>
+  );
+};
+
+const DashboardPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 };
 

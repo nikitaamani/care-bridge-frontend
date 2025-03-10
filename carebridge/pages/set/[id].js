@@ -66,87 +66,100 @@ const CharityProfile = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-12">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Charity Image */}
-        <img
-          src={charity.image}
-          alt={charity.name}
-          className="w-full h-72 object-cover"
-        />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* Charity Image */}
+          <img
+            src={charity.image}
+            alt={charity.name}
+            className="w-full h-96 object-cover object-center"
+          />
 
-        {/* Charity Details */}
-        <div className="p-6">
-          <h1 className="text-4xl font-bold text-black mb-4">{charity.name}</h1>
-          <p className="text-lg text-gray-700 mb-4">{charity.description}</p>
-          <p className="text-sm text-gray-500 mb-2">Cause: <span className="font-semibold">{charity.cause}</span></p>
-          <p className="text-sm text-gray-500 mb-4">Rating: ⭐ {charity.rating}</p>
+          {/* Charity Details */}
+          <div className="p-8">
+            <h1 className="text-5xl font-extrabold text-gray-900 mb-6">{charity.name}</h1>
+            <p className="text-xl text-gray-600 mb-8">{charity.description}</p>
 
-          {/* Mission */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-black mb-2">🌍 Mission</h2>
-            <p className="text-gray-700">{charity.mission}</p>
-          </div>
-
-          {/* Programs */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-black mb-2">📌 Programs</h2>
-            <ul className="list-disc list-inside text-gray-700">
-              {charity.programs.map((program, index) => (
-                <li key={index}>{program}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Impact */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-black mb-2">🚀 Impact</h2>
-            <p className="text-gray-700">{charity.impact}</p>
-          </div>
-
-          {/* Testimonials */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-black mb-2">💬 Testimonials</h2>
-            <div className="space-y-3">
-              {charity.testimonials.map((testimonial, index) => (
-                <blockquote key={index} className="bg-gray-100 p-4 rounded-lg italic">
-                  "{testimonial}"
-                </blockquote>
-              ))}
+            {/* Cause and Rating */}
+            <div className="flex items-center space-x-6 mb-8">
+              <p className="text-lg text-gray-700">
+                <span className="font-semibold">Cause:</span> {charity.cause}
+              </p>
+              <p className="text-lg text-gray-700">
+                <span className="font-semibold">Rating:</span> ⭐ {charity.rating}
+              </p>
             </div>
-          </div>
 
-          {/* Website & Donation */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-black mb-2">🔗 Get Involved</h2>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href={charity.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                Visit Website
-              </a>
-              <a
-                href={charity.donationLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
-              >
-                Donate Now
-              </a>
+            {/* Mission */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">🌍 Mission</h2>
+              <p className="text-xl text-gray-600">{charity.mission}</p>
             </div>
-          </div>
 
-          {/* Back Button */}
-          <div className="mt-6">
-            <Link
-              href="/search"
-              className="inline-block bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition"
-            >
-              🔙 Back to Search
-            </Link>
+            {/* Programs */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">📌 Programs</h2>
+              <ul className="list-disc list-inside text-xl text-gray-600 space-y-2">
+                {charity.programs.map((program, index) => (
+                  <li key={index}>{program}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Impact */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">🚀 Impact</h2>
+              <p className="text-xl text-gray-600">{charity.impact}</p>
+            </div>
+
+            {/* Testimonials */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">💬 Testimonials</h2>
+              <div className="space-y-4">
+                {charity.testimonials.map((testimonial, index) => (
+                  <blockquote
+                    key={index}
+                    className="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500 italic text-gray-600"
+                  >
+                    "{testimonial}"
+                  </blockquote>
+                ))}
+              </div>
+            </div>
+
+            {/* Website & Donation */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">🔗 Get Involved</h2>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={charity.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-transform transform hover:scale-105"
+                >
+                  Visit Website
+                </a>
+                <a
+                  href={charity.donationLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition-transform transform hover:scale-105"
+                >
+                  Donate Now
+                </a>
+              </div>
+            </div>
+
+            {/* Back Button */}
+            <div className="mt-8">
+              <Link
+                href="/search"
+                className="inline-block bg-gray-700 text-white px-8 py-3 rounded-xl hover:bg-gray-800 transition-transform transform hover:scale-105"
+              >
+                🔙 Back to Search
+              </Link>
+            </div>
           </div>
         </div>
       </div>
