@@ -48,6 +48,7 @@ const CharityApplications = () => {
     const token = localStorage.getItem("access_token");
 
     try {
+      console.log(`Updating application ${id} to status: ${status}`); // Debugging
       const res = await fetch(`${API_URL}/charity-applications/${id}`, {
         method: "PATCH",
         headers: {
@@ -56,6 +57,8 @@ const CharityApplications = () => {
         },
         body: JSON.stringify({ status }),
       });
+
+      console.log(`Response status: ${res.status}`); // Debugging
 
       if (!res.ok) {
         throw new Error("Failed to update application.");
@@ -67,6 +70,7 @@ const CharityApplications = () => {
 
       toast.success(`Application ${status}`);
     } catch (error) {
+      console.error("Error updating application:", error); // Debugging
       toast.error(error.message || "Action failed!");
     } finally {
       setActionLoading(null);

@@ -62,25 +62,25 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
       setError("Please enter a valid donation amount.");
       return;
     }
-
+  
     if (!user) {
       setError("You must be logged in to make a donation.");
       return;
     }
-
+  
     if (!user?.email) {
       setError("User email is missing. Please log in again.");
       return;
     }
-
+  
     setError("");
-
+  
     const token = localStorage.getItem("access_token");
     if (!token || token === "undefined") {
       setError("Session expired. Please log in again.");
       return;
     }
-
+  
     const requestData = {
       amount: amount,
       charity_id: selectedCharity.id,
@@ -90,8 +90,9 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
       donor_name: isAnonymous ? "Anonymous" : donorName,
       donation_type: "money",
       payment_method: "paypal",
+      status: "pending", // Add status field
     };
-
+  
     try {
       const response = await fetch("https://carebridge-backend-fys5.onrender.com/create-paypal-payment", {
         method: "POST",
@@ -101,9 +102,9 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
         },
         body: JSON.stringify(requestData),
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         return result.orderID;
       } else {
@@ -117,7 +118,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const orderID = urlParams.get("access_token");
-
+  
     if (orderID) {
       const capturePayment = async () => {
         const token = localStorage.getItem("access_token");
@@ -125,7 +126,7 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
           setError("Session expired. Please log in again.");
           return;
         }
-
+  
         try {
           const response = await fetch("https://carebridge-backend-fys5.onrender.com/execute-paypal-payment", {
             method: "POST",
@@ -135,9 +136,9 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
             },
             body: JSON.stringify({ orderID }),
           });
-
+  
           const result = await response.json();
-
+  
           if (response.ok) {
             alert("🎉 Donation Successful!");
             setAmount("");
@@ -155,11 +156,11 @@ const DonationForm = ({ setShowForm, addDonation, user, donation, fetchDonations
           setError("Network error. Try again later.");
         }
       };
-
+  
       capturePayment();
     }
   }, []);
-
+  
   return (
     <PayPalScriptProvider options={{ "client-id": "ATOm1GzlqyrHSwC2m5estbrSgAkmkOn_WREJj1WOCN5Ho2VmuyCJcXA9pQpuLVhXwMTgr379Q-g6dJDX", currency: "USD" }}>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

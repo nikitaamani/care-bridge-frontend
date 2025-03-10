@@ -48,6 +48,8 @@ const Users = () => {
       return;
     }
 
+    console.log(`Deleting user with ID: ${id}`); // Debugging
+
     fetch(`https://carebridge-backend-fys5.onrender.com/users/${id}`, {
       method: "DELETE",
       headers: {
@@ -56,8 +58,11 @@ const Users = () => {
       },
     })
       .then((res) => {
+        console.log(`Response status: ${res.status}`); // Debugging
+  
         if (!res.ok) {
           return res.text().then((text) => {
+            console.error(`Error response: ${text}`); // Debugging
             throw new Error(`Failed to delete user: ${res.status} - ${text}`);
           });
         }

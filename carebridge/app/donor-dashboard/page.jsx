@@ -140,6 +140,7 @@ const Dashboard = () => {
 
       if (!response.ok) {
         const errorData = await response.text(); // Handle non-JSON responses
+        console.error(`Error response: ${errorData}`); // Debugging
         throw new Error(errorData || "Failed to delete donation");
       }
 
